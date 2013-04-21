@@ -55,8 +55,12 @@ module Mirror
         end
       end
 
+      def expected_response
+        200
+      end
+
       def successful_response?
-        @response and @response.code == 200
+        @response and @response.code == expected_response
       end
 
       def ret_val

@@ -1,28 +1,39 @@
-require_relative "base"
+require_relative "timeline_request"
+require_relative "timeline_item_request"
 
 module Mirror
   module Api
-    class Timeline < Mirror::Api::Base
+    class Timeline
 
-      def initialize(params, creds, raise_errors, host="https://www.googleapis.com", logger=nil)
-        @params = params
-        super(creds, raise_errors)
+      def initialize(credentials)
+        @credentials =  if credentials.is_a?(String)
+          {:token => credentials}
+        elsif credentials.is_a?(Hash)
+          credentials
+        end
+
+        raise "Invalid credentials #{credentials.inspect}" unless @credentials
       end
 
-      def invoke_url
-        @invoke_url ||="#{self.host}/mirror/v1/timeline"
+      def list(params={})
+        TimelineRequest.new(params, 200, @credentials).get
       end
 
-      def params
-        @params ||={}
+      def create(params)
+        TimelineRequest.new(params, 201, @credentials).post
       end
 
-      def ret_val
-        Hashie::Mash.new(@data)
+      def get(id, params=nil)
+        TimelineItemRequest.new(id, params, 200, @credentials).get
       end
 
-      def successful_response?
-        @response and @response.code == 201
+      def update(id, params)
+        # This may become patch later
+        TimelineItemRequest.new(id, params, 200, @credentials).put
+      end
+
+      def delete(id)
+        TimelineItemRequest.new(id, nil, 200, @credentials).delete
       end
     end
   end
