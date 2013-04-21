@@ -45,7 +45,10 @@ module Mirror
         @request = request
         case response.code
           when 422
-            @logger.error("ERROR - Rejected #{request.inspect} to #{self.invoke_url} with params #{self.params}. Response is #{response.body}")
+            if @logger
+              msg = "ERROR - Rejected #{request.inspect} to #{self.invoke_url} with params #{self.params}. Response is #{response.body}"
+              @logger.error(msg)
+            end
             response
           else
             response.return!(request, result, &block)
