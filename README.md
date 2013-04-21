@@ -1,3 +1,5 @@
+![Image](https://travis-ci.org/ciberch/mirror-api.png)
+
 # Mirror::Api
 
 Simple Mirror Api client library

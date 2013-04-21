@@ -17,9 +17,10 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
+  gem.add_dependency "rake"
   gem.add_dependency "rest-client"
-  gem.add_runtime_dependency "hashie"
-  gem.add_runtime_dependency "json"
+  gem.add_dependency "hashie"
+  gem.add_dependency "json"
 
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "webmock"
