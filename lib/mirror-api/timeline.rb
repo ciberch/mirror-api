@@ -1,3 +1,5 @@
+require_relative "base"
+
 module Mirror
   module Api
     class Timeline < Mirror::Api::Base
