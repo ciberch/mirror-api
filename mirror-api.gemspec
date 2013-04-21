@@ -6,11 +6,11 @@ require 'mirror-api/version'
 Gem::Specification.new do |gem|
   gem.name          = "mirror-api"
   gem.version       = Mirror::Api::VERSION
-  gem.authors       = ["Monica Wilkinson"]
-  gem.email         = ["ciberch@gmail.com"]
+  gem.authors       = ["Monica Wilkinson", "Drew Baumann"]
+  gem.email         = ["monica@crushpath.com"]
   gem.description   = %q{Wrapper for Google Glass Mirror API v1}
   gem.summary       = %q{https://developers.google.com/glass/v1/reference/}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/ciberch/mirror-api"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
