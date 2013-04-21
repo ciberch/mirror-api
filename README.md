@@ -1,6 +1,6 @@
 # Mirror::Api
 
-Mirror API client
+Simple Mirror Api client library
 
 ## Installation
 
