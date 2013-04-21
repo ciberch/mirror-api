@@ -1,3 +1,7 @@
+require "rest-client"
+require "json"
+require "hashie/mash"
+
 module Mirror
   module Api
 
@@ -5,7 +9,7 @@ module Mirror
 
       attr_accessor :last_error, :logger, :host, :last_exception, :throw_on_fail, :response, :data, :creds
 
-      def initialize(credentials, throw_on_fail=false, host, logger=nil)
+      def initialize(credentials, throw_on_fail=false, host="https://www.googleapis.com", logger=nil)
         @creds = credentials
         @last_exception = nil
         @throw_on_fail = throw_on_fail
@@ -41,7 +45,10 @@ module Mirror
         @request = request
         case response.code
           when 422
-            @logger.error("ERROR - Rejected #{request.inspect} to #{self.invoke_url} with params #{self.params}. Response is #{response.body}")
+            if @logger
+              msg = "ERROR - Rejected #{request.inspect} to #{self.invoke_url} with params #{self.params}. Response is #{response.body}"
+              @logger.error(msg)
+            end
             response
           else
             response.return!(request, result, &block)
@@ -57,13 +64,11 @@ module Mirror
       end
 
       def headers
-        if @creds and @creds['token']
-          {
-              "Accept" => "application/json",
-              "Content-type" => "application/json",
-              "Authorization" => "Bearer #{@creds['token']}"
-          }
-        end
+        {
+            "Accept" => "application/json",
+            "Content-type" => "application/json",
+            "Authorization" => "Bearer #{@creds[:token]}"
+        }
       end
 
       def handle_response
@@ -86,7 +91,7 @@ module Mirror
       def handle_exception(error_desc, msg, ex, params={})
         @last_exception = ex
         @last_error = error_desc
-        msg += " with params #{params}" if params.keys.count > 0
+        msg += " with params #{params}" if params && params.keys.count > 0
         msg += " due to #{ex}.\n" + ex.backtrace.join("\n")
         @logger.error(msg) if @logger
 

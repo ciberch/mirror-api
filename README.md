@@ -21,11 +21,13 @@ Or install it yourself as:
 ``` ruby
 
 # Insert a simple text item - https://developers.google.com/glass/timeline#inserting_a_simple_timeline_item
-timeline_api = Mirror::Api::Timeline.new({:token => access_token})
-item = timeline_api.post({:text => "Hello Word"})
+credentials = {:token => access_token}
+msg = {:text => "Hello Word"}
+item1 = Mirror::Api::Timeline.new(msg, credentials).post
 
 # Inserting an item with reply actions - https://developers.google.com/glass/timeline#user_interaction_with_menu_items
-item2 = timeline_api.post({:text => "Hello Word", :menu_items => [{:action => "REPLY"}]})
+msg[:menu_items] = [{:action => "REPLY"}]
+item2 = Mirror::Api::Timeline.new(msg, credentials).post
 
 ```
 
