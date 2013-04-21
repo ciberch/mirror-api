@@ -1,4 +1,5 @@
-![Image](https://travis-ci.org/ciberch/mirror-api.png)
+![Travis-ci](https://travis-ci.org/ciberch/mirror-api.png)
+![Code Climate](https://codeclimate.com/github/ciberch/mirror-api.png)
 
 # Mirror::Api
 
