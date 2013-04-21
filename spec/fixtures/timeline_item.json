@@ -1,3 +1,9 @@
 {
-
+    "kind": "glass#timelineItem",
+    "id": "1234567890",
+    "selfLink": "https://www.googleapis.com/mirror/v1/timeline/1234567890",
+    "created": "2012-09-25T23:28:43.192Z",
+    "updated": "2012-09-25T23:28:43.192Z",
+    "etag": "\"G5BI0RWvj-0jWdBrdWrPZV7xPKw/t25selcGS3uDEVT6FB09hAG-QQ\"",
+    "text": "Hello world"
 }

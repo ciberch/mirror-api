@@ -1,3 +1,7 @@
+require "rest-client"
+require "json"
+require "hashie/mash"
+
 module Mirror
   module Api
 
@@ -57,13 +61,11 @@ module Mirror
       end
 
       def headers
-        if @creds and @creds['token']
-          {
-              "Accept" => "application/json",
-              "Content-type" => "application/json",
-              "Authorization" => "Bearer #{@creds['token']}"
-          }
-        end
+        {
+            "Accept" => "application/json",
+            "Content-type" => "application/json",
+            "Authorization" => "Bearer #{@creds[:token]}"
+        }
       end
 
       def handle_response
@@ -86,7 +88,7 @@ module Mirror
       def handle_exception(error_desc, msg, ex, params={})
         @last_exception = ex
         @last_error = error_desc
-        msg += " with params #{params}" if params.keys.count > 0
+        msg += " with params #{params}" if params && params.keys.count > 0
         msg += " due to #{ex}.\n" + ex.backtrace.join("\n")
         @logger.error(msg) if @logger
 
