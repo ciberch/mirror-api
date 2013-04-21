@@ -19,17 +19,27 @@ Or install it yourself as:
 ## Usage
 
 ``` ruby
+api = Mirror::Api::Timeline.new(token)
+
+# Getting all the timeline items
+items = api.list
 
 # Insert a simple text item - https://developers.google.com/glass/timeline#inserting_a_simple_timeline_item
-credentials = {:token => access_token}
-msg = {:text => "Hello Word"}
-item1 = Mirror::Api::Timeline.new(msg, credentials).post
+item1 = api.create({text: "Hello Word"})
 
 # Inserting an item with reply actions - https://developers.google.com/glass/timeline#user_interaction_with_menu_items
-msg[:menu_items] = [{:action => "REPLY"}]
-item2 = Mirror::Api::Timeline.new(msg, credentials).post
+item2 = api.create({text: "Hello Word", menu_items:[{action: "REPLY"}]})
 
+item2 = api.update(item2.id, {text: "Hello Again Word", menu_items:[{action: "REPLY"}]})
+
+api.delete(item2.id)
 ```
+
+## See Also
+
+Generic Google API Ruby Client
+
+https://github.com/google/google-api-ruby-client
 
 ## Contributing
 
