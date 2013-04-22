@@ -5,9 +5,9 @@ require 'mirror-api/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "mirror-api"
-  gem.version       = Mirror::Api::VERSION
+  gem.version       = Mirror::VERSION
   gem.authors       = ["Monica Wilkinson", "Drew Baumann"]
-  gem.email         = ["monica@crushpath.com"]
+  gem.email         = ["monica@crushpath.com, drewbaumann@gmail.com"]
   gem.description   = %q{Wrapper for Google Glass Mirror API v1}
   gem.summary       = %q{https://developers.google.com/glass/v1/reference/}
   gem.homepage      = "https://github.com/ciberch/mirror-api"
@@ -24,4 +24,9 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "webmock"
+  gem.add_development_dependency "pry"
+  gem.add_development_dependency "pry-rails"
+  gem.add_development_dependency "pry-nav"
+  gem.add_development_dependency "pry-remote"
+  gem.add_development_dependency "pry-awesome_print"
 end
