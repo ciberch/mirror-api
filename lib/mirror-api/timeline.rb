@@ -49,8 +49,7 @@ module Mirror
 
     def create(params)
       result = Mirror::API.new(params: params, expected_response: 201, invoke_url: "#{Mirror.endpoint}/timeline").post
-      binding.pry
-      create_instances(result)
+      create_instances(result) unless result.nil?
     end
 
     protected
