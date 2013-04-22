@@ -22,6 +22,9 @@ Or install it yourself as:
 ## Usage
 
 ``` ruby
+
+require "mirror-api"
+
 api = Mirror::Api::Timeline.new(token)
 
 # Getting all the timeline items
