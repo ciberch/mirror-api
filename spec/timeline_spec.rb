@@ -1,9 +1,13 @@
 require_relative "spec_helper"
 
-describe Mirror::Api::Timeline do
+describe Mirror::Timeline do
   before do
-    @token = "my-token"
-    @api = Mirror::Api::Timeline.new(@token)
+    Mirror.configure do |config|
+      config.refresh_token = "refresh_token"
+      config.client_secret  = "client_secret"
+      config.client_id  = "client_id"
+      config.access_token = "access_token"
+    end
   end
 
   describe "create" do
@@ -22,7 +26,7 @@ describe Mirror::Api::Timeline do
        end
 
        it "should insert plain text items" do
-         item = @api.create({text: @msg})
+         item = Mirror::Timeline.new({text: @msg})
          item.should_not be_nil
          item.created.should == "2012-09-25T23:28:43.192Z"  # see fixture
          item.text.should == @msg
@@ -43,7 +47,7 @@ describe Mirror::Api::Timeline do
 
        it "should not insert the item" do
 
-         item = @api.create({random: "123"})
+         item = Mirror::Timeline.new({random: "123"})
          item.should be_nil
        end
      end
@@ -53,7 +57,7 @@ describe Mirror::Api::Timeline do
       {
           'Accept'=>'application/json',
           'Accept-Encoding'=>'gzip, deflate',
-          'Authorization'=>"Bearer #{@token}",
+          'Authorization'=>"Bearer #{Mirror.access_token}",
           'Content-Length'=>/\d+/,
           'Content-Type'=>'application/x-www-form-urlencoded',
           'User-Agent'=>'Ruby'

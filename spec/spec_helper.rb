@@ -1,8 +1,9 @@
 require "rspec"
 require 'webmock/rspec'
 require 'webmock'
+require 'pry'
 
-require_relative "../lib/mirror-api/timeline.rb"
+require_relative "../lib/mirror-api"
 
 def fixture_path
   File.expand_path("../fixtures", __FILE__)
