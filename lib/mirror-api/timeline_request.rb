@@ -11,7 +11,7 @@ module Mirror
       end
     end
 
-    def list_timelines(params={})
+    def list_timeline(params={})
       parameters = params.map {|param| "#{param[0]}=#{param[1]}"}.join('&')
       encoded_parameters = URI.encode(parameters)
       invoke_url = encoded_parameters.empty? ? "#{Mirror.endpoint}/timeline" : "#{Mirror.endpoint}/timeline?#{encoded_parameters}"
