@@ -1,3 +1,5 @@
+require_relative 'timeline_array'
+require_relative 'timeline'
 module Mirror
   module TimelineRequest
     def insert(params)
