@@ -1,0 +1,51 @@
+{
+   "kind":"mirror#timeline",
+   "nextPageToken":"CrABCqIBwnPjUb06gAD__wAA_wG4k56MjNGKjJqN187Nzs3NyMfLy8bL1tGWi5qS18ydy5vNzMjL0pnOnJvSy8aZx9LGyMec0pvJy8mZx8_MnsbLntb_AP7__vfNr_dK___99UdsYXNzLnVzZXIoMTIxMjI3ODQ0OTQpLml0ZW0oM2I0ZDIzNzQtZjFjZC00OWY4LTk3OGMtZDY0NmY4MDNhOTRhKQABEAohllVJNZPLatrwhJV8AQ==",
+   "items":[
+      {
+            "kind":"mirror#timelineItem",
+            "id":"9bb28195-5269-481a-8ebd-12cb139ea10a",
+            "selfLink":         "https://www.googleapis.com/mirror/v1/timeline/9bb28195-5269-481a-8ebd-12cb139ea10a",
+            "created":         "2013-04-23T21:47:03.049         Z",
+            "updated":         "2013-04-23T21:47:03.049         Z",
+            "etag":"65l248RmT5u5T68ScXs9DlhRDXA/4pFmIxAPMQNcAGinencRrsPM3ko",
+            "text":"shrimping aint easy!"
+      },
+            {
+            "kind":"mirror#timelineItem",
+            "id":"bb72340b-a78a-4fbe-8b8c-5a7f24701eda",
+            "selfLink":         "https://www.googleapis.com/mirror/v1/timeline/bb72340b-a78a-4fbe-8b8c-5a7f24701eda",
+            "created":         "2013-04-23T04:42:03.286         Z",
+            "updated":         "2013-04-23T04:42:03.286         Z",
+            "etag":"65l248RmT5u5T68ScXs9DlhRDXA/4pFmIxAPMQNcAGinencRrsPM3ko",
+            "text":"hot cheetos"
+      },
+            {
+            "kind":"mirror#timelineItem",
+            "id":"1fda4367-a864-41a5-9d26-6e294975d566",
+            "selfLink":         "https://www.googleapis.com/mirror/v1/timeline/1fda4367-a864-41a5-9d26-6e294975d566",
+            "created":         "2013-04-23T04:40:30.934         Z",
+            "updated":         "2013-04-23T04:40:30.934         Z",
+            "etag":"65l248RmT5u5T68ScXs9DlhRDXA/4pFmIxAPMQNcAGinencRrsPM3ko",
+            "text":"hello drew"
+      },
+            {
+            "kind":"mirror#timelineItem",
+            "id":"349b90e4-9563-4e1e-b3de-35783216afcf",
+            "selfLink":         "https://www.googleapis.com/mirror/v1/timeline/349b90e4-9563-4e1e-b3de-35783216afcf",
+            "created":         "2013-04-23T04:38:48.520         Z",
+            "updated":         "2013-04-23T04:38:48.520         Z",
+            "etag":"65l248RmT5u5T68ScXs9DlhRDXA/4pFmIxAPMQNcAGinencRrsPM3ko",
+            "text":"Why are you even reading these? It is dummy data!"
+      },
+            {
+            "kind":"mirror#timelineItem",
+            "id":"28066fa1-5f2d-4bce-a6a9-fc1c503df1fe",
+            "selfLink":         "https://www.googleapis.com/mirror/v1/timeline/28066fa1-5f2d-4bce-a6a9-fc1c503df1fe",
+            "created":         "2013-04-23T04:38:18.124         Z",
+            "updated":         "2013-04-23T04:38:18.124         Z",
+            "etag":"65l248RmT5u5T68ScXs9DlhRDXA/4pFmIxAPMQNcAGinencRrsPM3ko",
+            "text":"Go to bed!"
+      }      
+   ]   
+}
