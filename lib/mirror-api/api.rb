@@ -98,9 +98,8 @@ module Mirror
       return nil
     end
 
-
-    def handle_http_exception(verb, ex)
-      handle_exception("INTERNAL_ERROR", "Could not #{verb} to #{self.invoke_url}", ex, self.params)
+    def handle_http_exception(verb, request, ex)
+      handle_exception("INTERNAL_ERROR", "Could not #{verb} to #{request[:invoke_url]}", ex, request[:params])
     end
 
     def do_verb(verb=:post, request={})
