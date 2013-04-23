@@ -54,9 +54,6 @@ describe Mirror::API do
    
     end
 
-          'Accept'=>'application/json',
-          'Content-Length'=>length.to_s,
-          'User-Agent'=>'Ruby'
   end
 
   describe "list_timelines" do
@@ -77,4 +74,23 @@ describe Mirror::API do
     end
   end
 
+  def json_post_request_headers(length=0)
+    {
+        'Accept'=>'application/json',
+        'Accept-Encoding'=>'gzip, deflate',
+        'Authorization'=>"Bearer #{@client.access_token}",
+        'Content-Length'=>length.to_s,
+        'Content-Type'=>'application/json',
+        'User-Agent'=>'Ruby'
+    }
+  end
+  def json_get_request_headers
+    {
+        'Accept'=>'application/json',
+        'Accept-Encoding'=>'gzip, deflate',
+        'Authorization'=>"Bearer #{@client.access_token}",
+        'Content-Type'=>'application/json',
+        'User-Agent'=>'Ruby'
+    }
+  end
 end
