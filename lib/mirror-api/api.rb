@@ -106,10 +106,11 @@ module Mirror
       handle_exception("INTERNAL_ERROR", "Could not #{verb} to #{self.invoke_url}", ex, self.params)
     end
 
-    def do_verb(verb=:post, json=false)
+    def do_verb(verb=:post, request={})
       begin
-        data = json ? self.params : self.params.to_json
-        @response = RestClient.send(verb, self.invoke_url, data, self.headers) do |response, request, result, &block|
+        data = request[:params]
+        body = data.is_a?(String) ? data : data.to_json
+        @response = RestClient.send(verb, request[:invoke_url], body, self.headers) do |response, request, result, &block|
           handle_http_response(response, request, result, &block)
         end
         set_data
@@ -118,9 +119,9 @@ module Mirror
       end
     end
 
-    def get_verb(verb=:get)
+    def get_verb(verb=:get, request={})
       begin
-        @response = RestClient.send(verb, self.invoke_url, self.headers)
+        @response = RestClient.send(verb, request[:invoke_url], self.headers)
         set_data
       rescue => ex
         return handle_http_exception(verb, ex)
