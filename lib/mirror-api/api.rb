@@ -2,7 +2,6 @@ require "rest-client"
 require "json"
 require "hashie/mash"
 require_relative "timeline_request"
-
 module Mirror
 
   class API
