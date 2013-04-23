@@ -31,6 +31,8 @@ module Mirror
 
     def configure
       yield self
+
+      self
     end
 
     def options
