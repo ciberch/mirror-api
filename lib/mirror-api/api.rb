@@ -18,24 +18,24 @@ module Mirror
     end
 
     public
-    def post(json=false)
-      do_verb(:post, json)
+    def post(request={})
+      do_verb(:post, request)
     end
 
-    def put(json=false)
-      do_verb(:put, json)
+    def put(request={})
+      do_verb(:put, request_headers)
     end
 
-    def patch(json=false)
-      do_verb(:put, json)
+    def patch(request={})
+      do_verb(:put, request)
     end
 
-    def delete
-      get_verb(:delete)
+    def delete(request={})
+      get_verb(:delete, request)
     end
 
-    def get
-      get_verb
+    def get(request={})
+      get_verb(:get, request)
     end
 
     protected
