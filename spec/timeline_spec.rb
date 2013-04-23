@@ -54,20 +54,27 @@ describe Mirror::API do
    
     end
 
-    def json_post_request_headers(length)
-      {
           'Accept'=>'application/json',
-          'Accept-Encoding'=>'gzip, deflate',
-          'Authorization'=>"Bearer #{@client.access_token}",
           'Content-Length'=>length.to_s,
-          'Content-Type'=>'application/json',
           'User-Agent'=>'Ruby'
-      }
-    end
   end
 
-  describe "list" do
-    context
+  describe "list_timelines" do
+    context "without params" do
+      before do
+        stub_request(:get, "https://www.googleapis.com/mirror/v1/timeline").
+           with(headers: json_get_request_headers).
+           to_return(status: 200,
+                body: fixture("timeline_items.json", true),
+                headers: {})
+      end
+
+      it "timelines.should_not be_nil " do
+        timelines = @client.list_timelines()
+        timelines.should_not be_nil
+        timelines.nextPageToken.should == "CrABCqIBwnPjUb06gAD__wAA_wG4k56MjNGKjJqN187Nzs3NyMfLy8bL1tGWi5qS18ydy5vNzMjL0pnOnJvSy8aZx9LGyMec0pvJy8mZx8_MnsbLntb_AP7__vfNr_dK___99UdsYXNzLnVzZXIoMTIxMjI3ODQ0OTQpLml0ZW0oM2I0ZDIzNzQtZjFjZC00OWY4LTk3OGMtZDY0NmY4MDNhOTRhKQABEAohllVJNZPLatrwhJV8AQ=="  # see fixture
+      end
+    end
   end
 
 end
