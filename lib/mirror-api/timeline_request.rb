@@ -2,7 +2,7 @@ require_relative 'timeline_array'
 require_relative 'timeline'
 module Mirror
   module TimelineRequest
-    def insert(params)
+    def insert_timeline(params)
       begin
         result = API.new(params: params, expected_response: 200, invoke_url: "#{Mirror.endpoint}/timeline").post
         Timeline.new(result) unless result.nil?
