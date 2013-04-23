@@ -111,6 +111,7 @@ module Mirror
           handle_http_response(response, request, result, &block)
         end
         set_data
+        JSON.parse(@response.body)
       rescue => ex
         return handle_http_exception(verb, ex)
       end
@@ -120,6 +121,7 @@ module Mirror
       begin
         @response = RestClient.send(verb, request[:invoke_url], self.headers)
         set_data
+        JSON.parse(@response.body)
       rescue => ex
         return handle_http_exception(verb, ex)
       end
