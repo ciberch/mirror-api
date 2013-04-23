@@ -74,7 +74,7 @@ module Mirror
       {
           "Accept" => "application/json",
           "Content-type" => "application/json",
-          "Authorization" => "Bearer #{Mirror.access_token}"
+          "Authorization" => "Bearer #{self.access_token}"
       }
     end
 
