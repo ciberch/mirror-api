@@ -98,9 +98,6 @@ module Mirror
       return nil
     end
 
-    def set_data
-      @data = JSON.parse(@response.body)
-    end
 
     def handle_http_exception(verb, ex)
       handle_exception("INTERNAL_ERROR", "Could not #{verb} to #{self.invoke_url}", ex, self.params)
