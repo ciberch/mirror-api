@@ -1,10 +1,12 @@
 require "rest-client"
 require "json"
 require "hashie/mash"
+require_relative "timeline_request"
 
 module Mirror
 
   class API
+    include TimelineRequest
     attr_accessor *Configuration::VALID_CONFIG_KEYS
 
     def initialize(options={})
