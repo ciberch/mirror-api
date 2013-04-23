@@ -43,13 +43,9 @@ module Mirror
   class Timeline
     attr_accessor :bundleId, :canonicalUrl, :creator, :displayTime, :html, :htmlPages, :isBundleCover, :location, :menuItems, :notification, :recipients, :sourceItemId, :speakableText, :text, :title
     attr_reader :kind, :id, :selfLink, :created, :updated, :isDeleted, :etag, :inReplyTo, :attachments, :pinScore
+    
     def initialize(params)
-      result = create(params)
-    end
-
-    def create(params)
-      result = Mirror::API.new(params: params, expected_response: 201, invoke_url: "#{Mirror.endpoint}/timeline").post
-      create_instances(result) unless result.nil?
+      create_instances(params)
     end
 
     protected
