@@ -79,6 +79,29 @@ describe Mirror::API do
     end
   end
 
+  describe "get_timeline(id)" do
+    context "with a valid id" do
+      before do
+        stub_request(:get, "https://www.googleapis.com/mirror/v1/timeline/1234567890").
+           with(headers: json_get_request_headers).
+           to_return(status: 200,
+                body: fixture("timeline_item.json", true),
+                headers: {})
+      end
+      it "should return a timeline object" do
+        item = @client.get_timeline(1234567890)
+        item.is_a?(Mirror::Timeline).should == true
+      end
+
+      it "should have a valid created attribute" do
+        item = @client.get_timeline(1234567890)
+        item.should_not be_nil
+        item.created.should == "2012-09-25T23:28:43.192Z"  # see fixture
+      end
+    end
+
+  end
+
   def json_post_request_headers(length=0)
     {
         'Accept'=>'application/json',
