@@ -117,7 +117,7 @@ module Mirror
 
       def do_verb(verb=:post, json=false)
         begin
-          data = json ? self.params.to_json : self.params
+          data = json ? self.params : self.params.to_json
           @response = RestClient.send(verb, self.invoke_url, data, self.headers) do |response, request, result, &block|
             handle_http_response(response, request, result, &block)
           end
