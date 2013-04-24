@@ -17,7 +17,7 @@ describe Mirror::Api::Client do
            stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/").
                with(body: {text: @msg},
                     headers: json_post_request_headers).
-               to_return(status: 201,
+               to_return(status: 200,
                          body: fixture("timeline_item.json", true),
                          headers: JSON.parse(fixture("timeline_item_response_headers.json", true)))
          end
