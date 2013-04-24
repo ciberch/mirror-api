@@ -18,6 +18,7 @@ module Mirror
       def create(params)
         Request.new(@credentials, make_options(params, 200)).post
       end
+      alias insert create
 
       def get(id, params=nil)
         Request.new(@credentials, item_options(id, params)).get
