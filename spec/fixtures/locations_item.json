@@ -1,0 +1,10 @@
+{
+  "kind": "mirror#location",
+  "id": "0987",
+  "timestamp": "2013-04-23T04:38:18.124Z",
+  "latitude": "34.026628",
+  "longitude": "-118.481884",
+  "accuracy": "1.0000",
+  "displayName": "Home",
+  "address": "1718 Santa Monica blvd."
+}
