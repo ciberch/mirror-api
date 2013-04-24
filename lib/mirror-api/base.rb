@@ -28,7 +28,7 @@ module Mirror
       end
 
       def patch(json=false)
-        do_verb(:put, json)
+        do_verb(:patch, json)
       end
 
       def delete
