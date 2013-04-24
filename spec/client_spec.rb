@@ -109,7 +109,7 @@ describe Mirror::Api::Client do
                        headers: {})
         end
 
-        it "should return a list of ids", :focus => true do
+        it "should return a list of locations", :focus => true do
           locations = @api.locations.list()
           locations.should_not be_nil
           locations.items.count.should == 2  # see fixture
