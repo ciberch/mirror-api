@@ -161,7 +161,7 @@ describe Mirror::Api::Client do
           stub_request(:get, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
                   with(headers: json_get_request_headers).
              to_return(status: 200,
-                       body: fixture("locations_item.json", true),
+                       body: fixture("contacts_item.json", true),
                        headers: {})
         end
         it "should return a hash with [:kind] == 'mirror#contact'" do
