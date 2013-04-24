@@ -1,3 +1,4 @@
 require "mirror-api/version"
-require "mirror-api/timeline"
+require "mirror-api/base"
+require "mirror-api/client"
 

@@ -3,6 +3,7 @@ SimpleCov.start
 require "rspec"
 require 'webmock/rspec'
 require 'webmock'
+require 'pry'
 
 require_relative "../lib/mirror-api/client.rb"
 
