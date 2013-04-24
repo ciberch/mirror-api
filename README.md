@@ -26,20 +26,23 @@ Or install it yourself as:
 
 require "mirror-api"
 
-api = Mirror::Api::Timeline.new(token)
+#mirror.rb (initialize)
+Mirror.configure do |config|
+  config.client_secret  = "YOUR_CLIENT_SECRET"
+  config.client_id  = "YOUR_CLIENT_ID"
+end
 
-# Getting all the timeline items
-items = api.list
+@client = Mirror::API.new({refresh_token: "YOUR_REFRESH_TOKEN"})
+
+# Getting timeline items
+items = @client.list_timeline
 
 # Insert a simple text item - https://developers.google.com/glass/timeline#inserting_a_simple_timeline_item
-item1 = api.create({text: "Hello Word"})
+item1 = @client.insert_timeline({text: "Hello Word"})
 
 # Inserting an item with reply actions - https://developers.google.com/glass/timeline#user_interaction_with_menu_items
-item2 = api.create({text: "Hello Word", menu_items:[{action: "REPLY"}]})
+item2 = @client.insert_timeline({text: "World, we meet again!", menu_items:[{action: "REPLY"}]})
 
-item2 = api.update(item2.id, {text: "Hello Again Word", menu_items:[{action: "REPLY"}]})
-
-api.delete(item2.id)
 ```
 
 ## See Also
