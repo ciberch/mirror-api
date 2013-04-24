@@ -39,7 +39,6 @@ describe Mirror::Api::Client do
            stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/").
                with(body: @body,
                     headers: json_post_request_headers(@body.to_json)).
-               to_return(status: 422, body: {}.to_json,
                to_return(status: 400, body: {}.to_json,
                          headers: {})
          end
@@ -85,7 +84,7 @@ describe Mirror::Api::Client do
           # TODO: Verify error code is 422
           stub_request(:get, "https://www.googleapis.com/mirror/v1/locations/").
             with(headers: json_get_request_headers).
-              to_return(status: 422, body: {}.to_json,
+              to_return(status: 404, body: {}.to_json,
                          headers: {})
         end
 
@@ -141,7 +140,7 @@ describe Mirror::Api::Client do
           @id = "blah"
           stub_request(:delete, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
                   with(headers: json_get_request_headers).
-             to_return(status: 404,
+             to_return(status: 422,
                        body: {},
                        headers: {})
         end
