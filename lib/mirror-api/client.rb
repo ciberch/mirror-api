@@ -21,6 +21,10 @@ module Mirror
       def subscriptions
         @subscriptions ||= Resource.new(@credentials, Request::SUBSCRIPTIONS)
       end
+
+      def locations
+        @locations ||= Resource.new(@credentials, Request::LOCATIONS)
+      end
     end
   end
 end

@@ -7,6 +7,7 @@ module Mirror
     class Request < Mirror::Api::Base
       TIMELINE = "timeline"
       SUBSCRIPTIONS = "subscriptions"
+      LOCATIONS = "locations"
 
       def initialize(creds, options={})
         @resource = options[:resource] || TIMELINE
