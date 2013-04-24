@@ -1,8 +1,10 @@
+require 'simplecov'
+SimpleCov.start
 require "rspec"
 require 'webmock/rspec'
 require 'webmock'
 
-require_relative "../lib/mirror-api/timeline.rb"
+require_relative "../lib/mirror-api/client.rb"
 
 def fixture_path
   File.expand_path("../fixtures", __FILE__)

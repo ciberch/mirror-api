@@ -9,7 +9,7 @@ module Mirror
 
       attr_accessor :last_error, :logger, :host, :last_exception, :throw_on_fail, :response, :data, :creds
 
-      def initialize(credentials, throw_on_fail=false, host="https://www.googleapis.com", logger=nil)
+      def initialize(credentials, throw_on_fail=true, host="https://www.googleapis.com", logger=nil)
         @creds = credentials
         @last_exception = nil
         @throw_on_fail = throw_on_fail
