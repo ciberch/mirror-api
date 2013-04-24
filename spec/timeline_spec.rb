@@ -56,7 +56,7 @@ describe Mirror::API do
 
   end
 
-  describe "list_timelines" do
+  describe "list_timeline" do
     context "without params" do
       before do
         stub_request(:get, "https://www.googleapis.com/mirror/v1/timeline").
@@ -67,7 +67,7 @@ describe Mirror::API do
       end
 
       it "timelines.should_not be_nil " do
-        timelines = @client.list_timelines()
+        timelines = @client.list_timeline()
         timelines.should_not be_nil
         timelines.nextPageToken.should == "CrABCqIBwnPjUb06gAD__wAA_wG4k56MjNGKjJqN187Nzs3NyMfLy8bL1tGWi5qS18ydy5vNzMjL0pnOnJvSy8aZx9LGyMec0pvJy8mZx8_MnsbLntb_AP7__vfNr_dK___99UdsYXNzLnVzZXIoMTIxMjI3ODQ0OTQpLml0ZW0oM2I0ZDIzNzQtZjFjZC00OWY4LTk3OGMtZDY0NmY4MDNhOTRhKQABEAohllVJNZPLatrwhJV8AQ=="  # see fixture
       end
