@@ -33,6 +33,11 @@ describe Mirror::API do
        item.created.should == "2012-09-25T23:28:43.192Z"  # see fixture
        item.text.should == @msg
      end
+
+     it "should return a timeline object" do
+      item = @client.insert_timeline({text: @msg})
+      item.is_a?(Mirror::Timeline).should == true
+     end
    end
 
    context "with invalid params" do
