@@ -13,10 +13,11 @@ describe Mirror::Api::Client do
        context "with valid params" do
          before do
            @msg = "Hello world"
+           @body = {text: @msg}
 
            stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/").
-               with(body: {text: @msg},
-                    headers: json_post_request_headers).
+               with(body: @body,
+                    headers: json_post_request_headers(@body.to_json)).
                to_return(status: 200,
                          body: fixture("timeline_item.json", true),
                          headers: JSON.parse(fixture("timeline_item_response_headers.json", true)))
@@ -32,12 +33,12 @@ describe Mirror::Api::Client do
 
        context "with invalid params" do
          before do
-           @msg = "Hello world"
-
+           @msg = "123"
+           @body = {text: @msg}
            # TODO: Verify error code is 422
            stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/").
-               with(body: {random: "123"},
-                    headers: json_get_request_headers).
+               with(body: @body,
+                    headers: json_post_request_headers(@body.to_json)).
                to_return(status: 422, body: {}.to_json,
                          headers: {})
          end
@@ -69,22 +70,22 @@ describe Mirror::Api::Client do
                        headers: {})
         end
 
-      it "should get the location for @id", :focus => true do
-        location = @api.locations.get(@id)
-        location.should_not be_nil
-        location.displayName.should == "Home"  # see fixture
+        it "should get the location for @id", :focus => true do
+          location = @api.locations.get(@id)
+          location.should_not be_nil
+          location.displayName.should == "Home"  # see fixture
+        end
       end
-    end
 
-    context "with invalid params" do
-      before do
-        @id = "0987asdasds"
+      context "with invalid params" do
+        before do
+          @id = "0987asdasds"
 
-        # TODO: Verify error code is 422
-        stub_request(:get, "https://www.googleapis.com/mirror/v1/locations/").
-          with(headers: json_post_request_headers).
-            to_return(status: 422, body: {}.to_json,
-                       headers: {})
+          # TODO: Verify error code is 422
+          stub_request(:get, "https://www.googleapis.com/mirror/v1/locations/").
+            with(headers: json_get_request_headers).
+              to_return(status: 422, body: {}.to_json,
+                         headers: {})
         end
 
         it "should not get the item" do
@@ -92,8 +93,9 @@ describe Mirror::Api::Client do
           item = @api.timeline.create({random: "123"})
           item.should be_nil
         end
-      end
-    end 
+      end 
+    end
+
     describe "list" do
 
       context "with valid params" do
@@ -124,7 +126,7 @@ describe Mirror::Api::Client do
           stub_request(:delete, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
                   with(headers: json_get_request_headers).
              to_return(status: 200,
-                       body: {}}, true),
+                       body: {},
                        headers: {})
         end
         it "should return nil" do
@@ -139,7 +141,7 @@ describe Mirror::Api::Client do
           stub_request(:delete, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
                   with(headers: json_get_request_headers).
              to_return(status: 404,
-                       body: {}}, true),
+                       body: {},
                        headers: {})
         end
         it "should return nil" do
@@ -244,13 +246,13 @@ describe Mirror::Api::Client do
 
 
 
-  def json_post_request_headers
+  def json_post_request_headers(body)
     {
         'Accept'=>'application/json',
         'Accept-Encoding'=>'gzip, deflate',
         'Authorization'=>"Bearer #{@token}",
-        'Content-Length'=>/\d+/,
-        'Content-Type'=>'application/x-www-form-urlencoded',
+        'Content-Length'=>body.length.to_s,
+        'Content-Type'=>'application/json',
         'User-Agent'=>'Ruby'
     }
   end
