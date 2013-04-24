@@ -20,5 +20,14 @@ module Mirror
       result['items'].each {|item| timeline_array << Timeline.new(item) }
       timeline_array
     end
+
+    def get_timeline(id)
+      begin
+        result = get({invoke_url: "#{Mirror.endpoint}/timeline/#{id}"})
+        Timeline.new(result) unless result.nil?
+      rescue => e
+        raise e
+      end
+    end
   end
 end
