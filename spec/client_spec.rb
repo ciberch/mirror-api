@@ -40,6 +40,7 @@ describe Mirror::Api::Client do
                with(body: @body,
                     headers: json_post_request_headers(@body.to_json)).
                to_return(status: 422, body: {}.to_json,
+               to_return(status: 400, body: {}.to_json,
                          headers: {})
          end
 
@@ -164,14 +165,25 @@ describe Mirror::Api::Client do
                        body: fixture("contacts_item.json", true),
                        headers: {})
         end
-        it "should return a hash with [:kind] == 'mirror#contact'" do
-          
+        it "should return a contact with .kind == 'mirror#contact'" do
+          contact = @api.contacts.get(@id)
+          contact.kind.should == 'mirror#contact'
         end
       end
 
       context "with invalid params" do
+        before do
+          @id = "bad_id"
+
+          stub_request(:get, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
+                  with(headers: json_get_request_headers).
+             to_return(status: 404,
+                       body: fixture("contacts_item.json", true),
+                       headers: {})
+        end
         it "should return nil" do
-          
+          contact = @api.contacts.get(@id)
+          contact.should == nil
         end
       end
 
@@ -180,14 +192,36 @@ describe Mirror::Api::Client do
     describe "insert" do
 
       context "with valid params" do
-        it "should return a hash with [:kind] == 'mirror#contact'" do
-          
+        before do
+           @body = {id: '1234', displayName: 'Demo App', imageUrls: ["http://pixelr3ap3r.com/wp-content/uploads/2012/08/357c6328ee4b11e1bfbf22000a1c91a7_7.jpg"]}
+
+           stub_request(:post, "https://www.googleapis.com/mirror/v1/contacts/").
+               with(body: @body,
+                    headers: json_post_request_headers(@body.to_json)).
+               to_return(status: 200,
+                         body: fixture("contacts_item.json", true),
+                         headers: {})
+        end
+        it "should return a contact with .kind == 'mirror#contact'" do
+          contact = @api.contacts.insert(@body)
+          contact.kind.should == 'mirror#contact'
         end
       end
 
       context "with invalid params" do
+        before do
+          @body = {canIHazContact: "Really you thought that was valid?!"}
+
+          stub_request(:post, "https://www.googleapis.com/mirror/v1/contacts/").
+            with(body: @body,
+              headers: json_post_request_headers(@body.to_json)).
+            to_return(status: 404,
+              body: {},
+              headers: {})
+        end
         it "should return nil" do
-          
+          contact = @api.contacts.insert(@body)
+          contact.should == nil
         end
       end
 
@@ -196,14 +230,19 @@ describe Mirror::Api::Client do
     describe "list" do
 
       context "with valid params" do
-        it "should return an empty body" do
-          
-        end
-      end
+        before do
 
-      context "with invalid params" do
-        it "should return nil" do
-          
+          stub_request(:get, "https://www.googleapis.com/mirror/v1/contacts/").
+                  with(headers: json_get_request_headers).
+                    to_return(status: 200,
+                       body: fixture("contacts_list.json", true),
+                       headers: {})
+        end
+
+        it "should return a list of contacts" do
+          contacts = @api.contacts.list()
+          contacts.should_not be_nil
+          contacts.items.count.should == 2  # see fixture
         end
       end
 
@@ -212,14 +251,38 @@ describe Mirror::Api::Client do
     describe "patch" do
 
       context "with valid params" do
-        it "should return an empty body" do
-          
+        before do
+          @id = '1234'
+          @body = {displayName: 'Demo App'}
+
+           stub_request(:patch, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
+               with(body: @body,
+                    headers: json_post_request_headers(@body.to_json)).
+               to_return(status: 200,
+                         body: fixture("contacts_item.json", true),
+                         headers: {})
+        end
+        it "should return a contact with .kind == 'mirror#contact'" do
+          contact = @api.contacts.patch(@id, @body)
+          contact.kind.should == 'mirror#contact'
         end
       end
 
       context "with invalid params" do
+        before do
+          @id = '1234'
+          @body = {derp: 'troll'}
+
+           stub_request(:patch, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
+               with(body: @body,
+                    headers: json_post_request_headers(@body.to_json)).
+               to_return(status: 400,
+                         body: {},
+                         headers: {})
+        end
         it "should return nil" do
-          
+          contact = @api.contacts.patch(@id, @body)
+          contact.should == nil
         end
       end
 
@@ -228,14 +291,38 @@ describe Mirror::Api::Client do
     describe "update" do
 
       context "with valid params" do
-        it "should return an empty body" do
-          
+        before do
+          @id = '1234'
+          @body = {displayName: 'Demo App'}
+
+           stub_request(:put, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
+               with(body: @body,
+                    headers: json_post_request_headers(@body.to_json)).
+               to_return(status: 200,
+                         body: fixture("contacts_item.json", true),
+                         headers: {})
+        end
+        it "should return a contact with .kind == 'mirror#contact'" do
+          contact = @api.contacts.update(@id, @body)
+          contact.kind.should == 'mirror#contact'
         end
       end
 
       context "with invalid params" do
+        before do
+          @id = '1234'
+          @body = {derp: 'troll'}
+
+           stub_request(:put, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
+               with(body: @body,
+                    headers: json_post_request_headers(@body.to_json)).
+               to_return(status: 400,
+                         body: {},
+                         headers: {})
+        end
         it "should return nil" do
-          
+          contact = @api.contacts.update(@id, @body)
+          contact.should == nil
         end
       end
 
