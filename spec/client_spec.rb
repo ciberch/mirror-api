@@ -115,6 +115,134 @@ describe Mirror::Api::Client do
     end
   end
 
+  describe "contacts" do
+
+    describe "delete" do
+      context "with valid params" do
+        before do
+          @id = "123123312"
+          stub_request(:delete, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
+                  with(headers: json_get_request_headers).
+             to_return(status: 200,
+                       body: {}}, true),
+                       headers: {})
+        end
+        it "should return nil" do
+          contact = @api.contacts.delete(@id)
+          contact.should == nil
+        end
+      end
+
+      context "with invalid params" do
+        before do
+          @id = "blah"
+          stub_request(:delete, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
+                  with(headers: json_get_request_headers).
+             to_return(status: 404,
+                       body: {}}, true),
+                       headers: {})
+        end
+        it "should return nil" do
+          contact = @api.contacts.delete(@id)
+          contact.should == nil
+        end
+      end
+
+    end
+
+    describe "get" do
+
+      context "with valid params" do
+        before do
+          @id = "0987"
+
+          stub_request(:get, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
+                  with(headers: json_get_request_headers).
+             to_return(status: 200,
+                       body: fixture("locations_item.json", true),
+                       headers: {})
+        end
+        it "should return a hash with [:kind] == 'mirror#contact'" do
+          
+        end
+      end
+
+      context "with invalid params" do
+        it "should return nil" do
+          
+        end
+      end
+
+    end
+
+    describe "insert" do
+
+      context "with valid params" do
+        it "should return a hash with [:kind] == 'mirror#contact'" do
+          
+        end
+      end
+
+      context "with invalid params" do
+        it "should return nil" do
+          
+        end
+      end
+
+    end
+
+    describe "list" do
+
+      context "with valid params" do
+        it "should return an empty body" do
+          
+        end
+      end
+
+      context "with invalid params" do
+        it "should return nil" do
+          
+        end
+      end
+
+    end
+
+    describe "patch" do
+
+      context "with valid params" do
+        it "should return an empty body" do
+          
+        end
+      end
+
+      context "with invalid params" do
+        it "should return nil" do
+          
+        end
+      end
+
+    end
+
+    describe "update" do
+
+      context "with valid params" do
+        it "should return an empty body" do
+          
+        end
+      end
+
+      context "with invalid params" do
+        it "should return nil" do
+          
+        end
+      end
+
+    end
+
+  end
+
+
+
 
   def json_post_request_headers
     {
