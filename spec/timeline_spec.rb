@@ -27,7 +27,7 @@ describe Mirror::API do
                      headers: JSON.parse(fixture("timeline_item_response_headers.json", true)))
      end
 
-     it "should insert plain text items" do
+     it "should have a valid created attribute" do
        item = @client.insert_timeline({text: @msg})
        item.should_not be_nil
        item.created.should == "2012-09-25T23:28:43.192Z"  # see fixture
