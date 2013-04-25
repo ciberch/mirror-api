@@ -1,0 +1,33 @@
+{
+  "kind": "mirror#contacts",
+  "items": [
+    {
+      "kind": "mirror#contact",
+      "source": "demo_app",
+      "id": "1234",
+      "displayName": "Demo App",
+      "imageUrls": [
+        "http://pixelr3ap3r.com/wp-content/uploads/2012/08/357c6328ee4b11e1bfbf22000a1c91a7_7.jpg"
+      ],
+      "type": "INDIVIDUAL",
+      "acceptTypes": [
+      ],
+      "phoneNumber": "1234345587",
+      "priority": 1
+    },
+    {
+      "kind": "mirror#contact",
+      "source": "demo_app2",
+      "id": "0987",
+      "displayName": "Demo App 2",
+      "imageUrls": [
+        "http://pixelr3ap3r.com/wp-content/uploads/2012/08/357c6328ee4b11e1bfbf22000a1c91a7_7.jpg"
+      ],
+      "type": "GROUP",
+      "acceptTypes": [
+      ],
+      "phoneNumber": "1234345587",
+      "priority": 2
+    }
+  ]
+}

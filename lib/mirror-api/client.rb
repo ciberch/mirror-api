@@ -25,6 +25,10 @@ module Mirror
       def locations
         @locations ||= Resource.new(@credentials, Request::LOCATIONS)
       end
+
+      def contacts
+        @contacts ||= Resource.new(@credentials, Request::CONTACTS)
+      end
     end
   end
 end

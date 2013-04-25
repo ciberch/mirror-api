@@ -29,6 +29,10 @@ module Mirror
         Request.new(@credentials, item_options(id, params)).put
       end
 
+      def patch(id, params)
+        Request.new(@credentials, item_options(id, params)).patch
+      end
+
       def delete(id)
         Request.new(@credentials, item_options(id)).delete
       end
