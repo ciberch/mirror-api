@@ -20,7 +20,11 @@ module Mirror
       end
 
       def invoke_url
-        @invoke_url ||="#{self.host}/mirror/v1/#{@resource}/#{@id ? @id : ''}"
+        return @invoke_url unless @invoke_url.nil?
+        @invoke_url ="#{self.host}/mirror/v1/#{@resource}/#{@id ? @id : ''}"
+        @invoke_url += "/attachments/#{attachment_id ? attachment_id : ''}" if attachments
+        @invoke_url
+      end
       end
 
       def params
