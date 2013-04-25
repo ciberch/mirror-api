@@ -1,0 +1,18 @@
+
+{
+  "kind": "mirror#attachmentsList",
+  "items": [
+    {
+      "id": "1234",
+      "contentType": "image/png",
+      "contentUrl": "https://www.evernote.com/shard/s28/sh/be536e15-5664-4533-b46e-ee4f09a9ed26/4cc92448e68787d8d054839e9ccd6273/deep/0/Pasted%20Image%204/25/13%2012:18%20AM.png",
+      "isProcessingContent": false
+    },
+    {
+      "id": "0987",
+      "contentType": "image/png",
+      "contentUrl": "https://www.evernote.com/didnt_want_to_upload_anything_fun.png",
+      "isProcessingContent": false
+    }
+  ]
+}
