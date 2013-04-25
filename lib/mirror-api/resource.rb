@@ -17,7 +17,7 @@ module Mirror
       end
 
       def create(params)
-        Request.new(@credentials, make_options(params, 200)).post
+        Request.new(@credentials, make_options(params)).post
       end
       alias insert create
 
