@@ -13,10 +13,11 @@ describe Mirror::Api::Client do
        context "with valid params" do
          before do
            @msg = "Hello world"
+           @body = {text: @msg}
 
            stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/").
-               with(body: {text: @msg},
-                    headers: json_post_request_headers).
+               with(body: @body,
+                    headers: json_post_request_headers(@body.to_json)).
                to_return(status: 200,
                          body: fixture("timeline_item.json", true),
                          headers: JSON.parse(fixture("timeline_item_response_headers.json", true)))
@@ -33,11 +34,11 @@ describe Mirror::Api::Client do
        context "with invalid params" do
          before do
            @msg = "Hello world"
-
+           @body = {text: @msg}
            # TODO: Verify error code is 422
            stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/").
-               with(body: {random: "123"},
-                    headers: json_get_request_headers).
+               with(body: @body,
+                    headers: json_post_request_headers(@body.to_json)).
                to_return(status: 422, body: {}.to_json,
                          headers: {})
          end
@@ -82,7 +83,7 @@ describe Mirror::Api::Client do
 
         # TODO: Verify error code is 422
         stub_request(:get, "https://www.googleapis.com/mirror/v1/locations/").
-          with(headers: json_post_request_headers).
+          with(headers: json_get_request_headers).
             to_return(status: 422, body: {}.to_json,
                        headers: {})
         end
@@ -116,13 +117,13 @@ describe Mirror::Api::Client do
   end
 
 
-  def json_post_request_headers
+  def json_post_request_headers(body)
     {
         'Accept'=>'application/json',
         'Accept-Encoding'=>'gzip, deflate',
         'Authorization'=>"Bearer #{@token}",
-        'Content-Length'=>/\d+/,
-        'Content-Type'=>'application/x-www-form-urlencoded',
+        'Content-Length'=>body.length.to_s,
+        'Content-Type'=>'application/json',
         'User-Agent'=>'Ruby'
     }
   end
