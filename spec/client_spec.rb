@@ -23,7 +23,7 @@ describe Mirror::Api::Client do
                          headers: JSON.parse(fixture("timeline_item_response_headers.json", true)))
          end
 
-         it "should insert plain text items", :focus => true do
+         it "should insert plain text items" do
            item = @api.timeline.create({text: @msg})
            item.should_not be_nil
            item.created.should == "2012-09-25T23:28:43.192Z"  # see fixture
@@ -34,7 +34,7 @@ describe Mirror::Api::Client do
        context "with invalid params" do
          before do
            @msg = "123"
-           @body = {text: @msg}
+           @body = {random: @msg}
            stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/").
                with(body: @body,
                     headers: json_post_request_headers(@body.to_json)).
@@ -44,7 +44,7 @@ describe Mirror::Api::Client do
 
          it "should not insert the item" do
 
-           item = @api.timeline.create({random: "123"})
+           item = @api.timeline.create(@body)
            item.should be_nil
          end
 
@@ -69,7 +69,7 @@ describe Mirror::Api::Client do
                        headers: {})
         end
 
-        it "should get the location for @id", :focus => true do
+        it "should get the location for @id" do
           location = @api.locations.get(@id)
           location.should_not be_nil
           location.displayName.should == "Home"  # see fixture
@@ -89,7 +89,7 @@ describe Mirror::Api::Client do
 
         it "should not get the item" do
 
-          item = @api.timeline.create({random: "123"})
+          item = @api.timeline.get(@id)
           item.should be_nil
         end
       end 
@@ -107,7 +107,7 @@ describe Mirror::Api::Client do
                        headers: {})
         end
 
-        it "should return a list of locations", :focus => true do
+        it "should return a list of locations" do
           locations = @api.locations.list()
           locations.should_not be_nil
           locations.items.count.should == 2  # see fixture
@@ -139,7 +139,7 @@ describe Mirror::Api::Client do
           @id = "blah"
           stub_request(:delete, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
                   with(headers: json_get_request_headers).
-             to_return(status: 422,
+             to_return(status: 400,
                        body: {},
                        headers: {})
         end
