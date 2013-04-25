@@ -25,6 +25,19 @@ module Mirror
         @invoke_url += "/attachments/#{attachment_id ? attachment_id : ''}" if attachments
         @invoke_url
       end
+
+      def attachment_id
+        if attachments
+          if params[:attachments][:id]
+            @attachment_id ||= params[:attachments][:id]
+          end
+        end
+      end
+
+      def attachments
+        if params[:attachments]
+          @attachments ||= params[:attachments]
+        end
       end
 
       def params
