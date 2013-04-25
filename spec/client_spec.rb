@@ -35,7 +35,6 @@ describe Mirror::Api::Client do
          before do
            @msg = "123"
            @body = {text: @msg}
-           # TODO: Verify error code is 422
            stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/").
                with(body: @body,
                     headers: json_post_request_headers(@body.to_json)).
@@ -81,11 +80,11 @@ describe Mirror::Api::Client do
         before do
           @id = "0987asdasds"
 
-          # TODO: Verify error code is 422
           stub_request(:get, "https://www.googleapis.com/mirror/v1/locations/").
             with(headers: json_get_request_headers).
               to_return(status: 404, body: {}.to_json,
                          headers: {})
+
         end
 
         it "should not get the item" do
@@ -328,9 +327,6 @@ describe Mirror::Api::Client do
     end
 
   end
-
-
-
 
   def json_post_request_headers(body)
     {
