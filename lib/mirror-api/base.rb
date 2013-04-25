@@ -27,6 +27,10 @@ module Mirror
         do_verb(:put, json)
       end
 
+      def patch(json=false)
+        do_verb(:patch, json)
+      end
+
       def delete
         get_verb(:delete)
       end
@@ -44,7 +48,7 @@ module Mirror
       def handle_http_response(response, request, result, &block)
         @request = request
         case response.code
-          when 422
+          when 400
             if @logger
               msg = "ERROR - Rejected #{request.inspect} to #{self.invoke_url} with params #{self.params}. Response is #{response.body}"
               @logger.error(msg)
