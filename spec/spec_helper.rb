@@ -6,6 +6,7 @@ require 'webmock'
 require 'pry'
 
 require_relative "../lib/mirror-api/client.rb"
+require_relative "../lib/mirror-api/oauth.rb"
 
 def fixture_path
   File.expand_path("../fixtures", __FILE__)
