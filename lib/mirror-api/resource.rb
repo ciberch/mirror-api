@@ -48,7 +48,7 @@ module Mirror
       end
 
       def handle_list(args)
-        if args[0].is_a?(String)
+        if args.first.is_a?(String)
           Request.new(@credentials, item_options(args[0], args[1])).get
         else
           Request.new(@credentials, make_options(args[0])).get
