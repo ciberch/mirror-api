@@ -27,17 +27,11 @@ module Mirror
       end
 
       def attachment_id
-        if attachments
-          if params[:attachments][:id]
-            @attachment_id ||= params[:attachments][:id]
-          end
-        end
+        attachments[:id] if attachments
       end
 
       def attachments
-        if params[:attachments]
-          @attachments ||= params[:attachments]
-        end
+        params[:attachments] if params
       end
 
       def params
