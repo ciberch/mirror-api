@@ -11,12 +11,13 @@ module Mirror
         raise "Invalid credentials #{credentials}" unless @credentials
       end
 
-      def list(params={})
-        Request.new(@credentials, make_options(params)).get
+      def list(*args)
+        handle_list(args)
+        
       end
 
       def create(params)
-        Request.new(@credentials, make_options(params, 200)).post
+        Request.new(@credentials, make_options(params)).post
       end
       alias insert create
 
@@ -33,8 +34,8 @@ module Mirror
         Request.new(@credentials, item_options(id, params)).patch
       end
 
-      def delete(id)
-        Request.new(@credentials, item_options(id)).delete
+      def delete(id, params=nil)
+        Request.new(@credentials, item_options(id, params)).delete
       end
 
     private
@@ -45,6 +46,15 @@ module Mirror
       def item_options(id, params=nil, status=200)
         {:resource => @resource_name, :id => id, :params => params, :expected_response => status}
       end
+
+      def handle_list(args)
+        if args.first.is_a?(String)
+          Request.new(@credentials, item_options(args[0], args[1])).get
+        else
+          Request.new(@credentials, make_options(args[0])).get
+        end
+      end
+
     end
   end
 end

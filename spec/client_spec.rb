@@ -23,7 +23,7 @@ describe Mirror::Api::Client do
                          headers: JSON.parse(fixture("timeline_item_response_headers.json", true)))
          end
 
-         it "should insert plain text items", :focus => true do
+         it "should insert plain text items" do
            item = @api.timeline.create({text: @msg})
            item.should_not be_nil
            item.created.should == "2012-09-25T23:28:43.192Z"  # see fixture
@@ -34,7 +34,7 @@ describe Mirror::Api::Client do
        context "with invalid params" do
          before do
            @msg = "123"
-           @body = {text: @msg}
+           @body = {random: @msg}
            stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/").
                with(body: @body,
                     headers: json_post_request_headers(@body.to_json)).
@@ -44,7 +44,7 @@ describe Mirror::Api::Client do
 
          it "should not insert the item" do
 
-           item = @api.timeline.create({random: "123"})
+           item = @api.timeline.create(@body)
            item.should be_nil
          end
 
@@ -69,7 +69,7 @@ describe Mirror::Api::Client do
                        headers: {})
         end
 
-        it "should get the location for @id", :focus => true do
+        it "should get the location for @id" do
           location = @api.locations.get(@id)
           location.should_not be_nil
           location.displayName.should == "Home"  # see fixture
@@ -89,7 +89,7 @@ describe Mirror::Api::Client do
 
         it "should not get the item" do
 
-          item = @api.timeline.create({random: "123"})
+          item = @api.timeline.get(@id)
           item.should be_nil
         end
       end 
@@ -107,7 +107,7 @@ describe Mirror::Api::Client do
                        headers: {})
         end
 
-        it "should return a list of locations", :focus => true do
+        it "should return a list of locations" do
           locations = @api.locations.list()
           locations.should_not be_nil
           locations.items.count.should == 2  # see fixture
@@ -139,7 +139,7 @@ describe Mirror::Api::Client do
           @id = "blah"
           stub_request(:delete, "https://www.googleapis.com/mirror/v1/contacts/#{@id}").
                   with(headers: json_get_request_headers).
-             to_return(status: 422,
+             to_return(status: 400,
                        body: {},
                        headers: {})
         end
@@ -324,6 +324,137 @@ describe Mirror::Api::Client do
         end
       end
 
+    end
+
+  end
+
+  describe "timeline attachments" do
+    
+    context "delete" do
+      context "with valid params" do
+        before do
+          @timeline_id = "1234"
+          @attachment_id = "123123312"
+          stub_request(:delete, "https://www.googleapis.com/mirror/v1/timeline/#{@timeline_id}/attachments/#{@attachment_id}").
+                  with(headers: json_get_request_headers).
+             to_return(status: 200,
+                       body: {},
+                       headers: {})
+        end
+        it "should return nil" do
+          timeline_attachment = @api.timeline.delete(@timeline_id, {attachments:{id: @attachment_id}})
+          timeline_attachment.should == nil
+        end
+      end
+
+      context "with invalid params" do
+        before do
+          @timeline_id = "1234"
+          @attachment_id = "blah"
+          stub_request(:delete, "https://www.googleapis.com/mirror/v1/timeline/#{@timeline_id}/attachments/#{@attachment_id}").
+                  with(headers: json_get_request_headers).
+             to_return(status: 400,
+                       body: {},
+                       headers: {})
+        end
+        it "should return nil" do
+          timeline_attachment = @api.timeline.delete(@timeline_id, {attachments:{id: @attachment_id}})
+          timeline_attachment.should == nil
+        end
+      end
+    end
+
+    context "get" do
+      context "with valid params" do
+        before do
+          @timeline_id = "1234"
+          @attachment_id = "123123312"
+          stub_request(:get, "https://www.googleapis.com/mirror/v1/timeline/#{@timeline_id}/attachments/#{@attachment_id}").
+                  with(headers: json_get_request_headers).
+             to_return(status: 200,
+                       body: fixture("timeline_item_attachments_item.json", true),
+                       headers: {})
+        end
+        it "should return timeline_attachment with id '1234'" do
+          timeline_attachment = @api.timeline.get(@timeline_id, {attachments:{id: @attachment_id}})
+          timeline_attachment.id == '1234'
+        end
+      end
+
+      context "with invalid params" do
+        before do
+          @timeline_id = "1234"
+          @attachment_id = "blah"
+          stub_request(:get, "https://www.googleapis.com/mirror/v1/timeline/#{@timeline_id}/attachments/#{@attachment_id}").
+                  with(headers: json_get_request_headers).
+             to_return(status: 404,
+                       body: {},
+                       headers: {})
+        end
+        it "should return nil" do
+          timeline_attachment = @api.timeline.get(@timeline_id, {attachments:{id: @attachment_id}})
+          timeline_attachment.should == nil
+        end
+      end
+    end
+
+    #TODO: Support file upload
+    # context "insert" do
+    #   context "with valid params" do
+    #     before do
+    #       @timeline_id = "1234"
+    #       @file = fixture_file_upload('files/fry.png', 'image/png')
+    #       @params = {uploadType: 'media'}
+
+    #       stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/#{@timeline_id}/attachments?uploadType=media").
+    #         with(
+    #           headers: json_post_request_headers(@body.to_json)).
+    #         to_return(status: 200,
+    #           body: fixture("timeline_item_attachments_item.json", true),
+    #           headers: {})
+    #     end
+    #     it "should return timeline_attachment with id '1234'" do
+    #       timeline_attachment = @api.timeline.delete(@timeline_id, {attachments:{id: @attachment_id}})
+    #       timeline_attachment.id == '1234ß'
+    #     end
+    #   end
+
+    #   context "with invalid params" do
+    #     before do
+    #       @body = {canIHazContact: "Really you thought that was valid?!"}
+
+    #       stub_request(:post, "https://www.googleapis.com/mirror/v1/contacts/").
+    #         with(body: @body,
+    #           headers: json_post_request_headers(@body.to_json)).
+    #         to_return(status: 404,
+    #           body: {},
+    #           headers: {})
+    #     end
+    #     it "should return nil" do
+    #       contact = @api.contacts.insert(@body)
+    #       contact.should == nil
+    #     end
+    #   end
+    # end
+
+   # TODO correct resource#list method to handle attachments
+    context "list" do
+      context "with valid params" do
+        before do
+          @timeline_id = "1234"
+          stub_request(:get, "https://www.googleapis.com/mirror/v1/timeline/#{@timeline_id}/attachments/").
+                  with(headers: json_get_request_headers).
+                    to_return(status: 200,
+                       body: fixture("timeline_item_attachments_list.json", true),
+                       headers: {})
+        end
+
+        it "should return a list of contacts", :focus => true do
+          attachments = @api.timeline.list(@timeline_id, {attachments: {} })
+          attachments.should_not be_nil
+          attachments.items.count.should == 2  # see fixture
+        end
+      end
     end
 
   end
