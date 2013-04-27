@@ -1,0 +1,30 @@
+{
+  "kind": "mirror#subscriptionsList",
+  "items": [
+    {
+      "kind": "mirror#subscription",
+      "id": "timeline",
+      "updated": "2013-04-23T04:38:18.124Z",
+      "collection": "timeline",
+      "operation": [
+        "UPDATE"
+      ],
+      "callbackUrl": "https://yourawesomewebsite.com/callback",
+      "verifyToken": "longstringthatissupposedtobesecure",
+      "userToken": "user_1",
+      "notification": {
+        "collection": "timeline",
+        "itemId": "1234",
+        "operation": "UPDATE",
+        "userActions": [
+          {
+            "type": "SHARE",
+            "payload": "string"
+          }
+        ],
+        "verifyToken": "longstringthatissupposedtobesecure",
+        "userToken": "user_1"
+      }
+    }
+  ]
+}
