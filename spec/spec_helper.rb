@@ -17,3 +17,24 @@ def fixture(file, read=false)
   return File.read(file) if read
   file
 end
+
+def json_post_request_headers(token, body)
+  {
+      'Accept'=>'application/json',
+      'Accept-Encoding'=>'gzip, deflate',
+      'Authorization'=>"Bearer #{token}",
+      'Content-Length'=>body.length.to_s,
+      'Content-Type'=>'application/json',
+      'User-Agent'=>'Ruby'
+  }
+end
+
+def json_get_request_headers(token)
+  {
+      'Accept'=>'application/json',
+      'Accept-Encoding'=>'gzip, deflate',
+      'Authorization'=>"Bearer #{token}",
+      'Content-Type'=>'application/json',
+      'User-Agent'=>'Ruby'
+  }
+end
