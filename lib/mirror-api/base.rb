@@ -45,8 +45,14 @@ module Mirror
 
       protected
 
-      def invoke_url; end
-      def params; end
+      def invoke_url
+        raise NotImplementedError
+      end
+
+      def params
+        raise NotImplementedError
+      end
+
       def send_error; end
 
       def handle_http_response(response, request, result, &block)
