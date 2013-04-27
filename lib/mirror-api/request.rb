@@ -16,7 +16,8 @@ module Mirror
         @params = options[:params]
         @expected_response = options[:expected_response]
         host = options[:host] || HOST
-        super(creds, options[:raise_errors], host, options[:logger])
+        throw_on_fail = options[:raise_errors] || false
+        super(creds, throw_on_fail, host, options[:logger])
       end
 
       def invoke_url
@@ -44,6 +45,14 @@ module Mirror
 
       def expected_response
         @expected_response
+      end
+
+      def send_error
+        return handle_error(
+            Mirror::Api::Errors::ERROR_400,
+            "Error making a request for #{@resource}",
+            @data
+        )
       end
     end
   end

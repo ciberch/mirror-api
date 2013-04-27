@@ -2,14 +2,18 @@ require "rest-client"
 require "json"
 require "hashie/mash"
 
+require_relative "errors"
+
 module Mirror
   module Api
 
     class Base
 
+      DEFAULT_HOST="https://www.googleapis.com"
+
       attr_accessor :last_error, :logger, :host, :last_exception, :throw_on_fail, :response, :data, :creds
 
-      def initialize(credentials, throw_on_fail=true, host="https://www.googleapis.com", logger=nil)
+      def initialize(credentials, throw_on_fail=true, host=DEFAULT_HOST, logger=nil)
         @creds = credentials
         @last_exception = nil
         @throw_on_fail = throw_on_fail
@@ -48,9 +52,10 @@ module Mirror
       def handle_http_response(response, request, result, &block)
         @request = request
         case response.code
+          when 404
           when 400
             if @logger
-              msg = "ERROR - Rejected #{request.inspect} to #{self.invoke_url} with params #{self.params}. Response is #{response.body}"
+              msg = "ERROR - #{response.code} #{request.inspect} to #{self.invoke_url} with params #{self.params}. Response is #{response.body}"
               @logger.error(msg)
             end
             response
@@ -108,34 +113,26 @@ module Mirror
       end
 
       def set_data
-        @data = JSON.parse(@response.body) if @response and @response.body
-      end
-
-      def handle_http_exception(verb, ex)
-        handle_exception("INTERNAL_ERROR", "Could not #{verb} to #{self.invoke_url}", ex, self.params)
+        if @response and @response.body
+          @data = JSON.parse(@response.body) if @response.body.is_a?(String) && !@response.body.empty?
+        end
       end
 
       def do_verb(verb=:post, json=false)
-        begin
-          data = json ? self.params : self.params.to_json
-          @response = RestClient.send(verb, self.invoke_url, data, self.headers) do |response, request, result, &block|
-            handle_http_response(response, request, result, &block)
-          end
-          set_data
-          handle_response
-        rescue => ex
-          return handle_http_exception(verb, ex)
+        data = json ? self.params : self.params.to_json
+        @response = RestClient.send(verb, self.invoke_url, data, self.headers) do |response, request, result, &block|
+          handle_http_response(response, request, result, &block)
         end
+        set_data
+        handle_response
       end
 
       def get_verb(verb=:get)
-        begin
-          @response = RestClient.send(verb, self.invoke_url, self.headers)
-          set_data
-          handle_response
-        rescue => ex
-          return handle_http_exception(verb, ex)
+        @response = RestClient.send(verb, self.invoke_url, self.headers) do |response, request, result, &block|
+          handle_http_response(response, request, result, &block)
         end
+        set_data
+        handle_response
       end
     end
 

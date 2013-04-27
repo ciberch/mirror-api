@@ -13,7 +13,6 @@ module Mirror
 
       def list(*args)
         handle_list(args)
-        
       end
 
       def create(params)
