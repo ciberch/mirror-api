@@ -22,7 +22,7 @@ describe "Locations" do
       it "should get the location for @id" do
         location = @api.locations.get(@id)
         location.should_not be_nil
-        location.displayName.should == "Home" # see fixture
+        location.display_name.should == "Home" # see fixture
       end
     end
 
