@@ -1,5 +1,5 @@
 {
-  "kind": "glass#timelineItem",
+  "kind": "mirror#timelineItem",
   "id": "1234567890",
   "selfLink": "https://www.googleapis.com/mirror/v1/timeline/1234567890",
   "created": "2012-09-25T23:28:43.192Z",
