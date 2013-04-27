@@ -4,6 +4,8 @@ module Mirror
   module Api
     class Client
 
+      attr_reader :credentials
+
       def initialize(credentials)
         @credentials =  if credentials.is_a?(String)
                           {:token => credentials}
@@ -11,7 +13,7 @@ module Mirror
                           credentials
                         end
 
-        raise "Invalid credentials #{credentials.inspect}" unless @credentials
+        raise "Invalid credentials. Missing token" unless (@credentials && @credentials[:token])
       end
 
       def timeline
