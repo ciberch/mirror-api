@@ -379,6 +379,11 @@ describe Mirror::Api::Client do
           timeline_attachment = @api.timeline.get(@timeline_id, {attachments:{id: @attachment_id}})
           timeline_attachment.id == '1234'
         end
+
+        it "should return isProcessingContent with boolean false" do
+          timeline_attachment = @api.timeline.get(@timeline_id, {attachments:{id: @attachment_id}})
+          timeline_attachment.isProcessingContent == false
+        end
       end
 
       context "with invalid params" do
