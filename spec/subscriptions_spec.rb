@@ -3,7 +3,6 @@ require_relative "spec_helper"
 describe "Subscriptions" do
   before do
     @token = "my-token"
-    @api = Mirror::Api::Client.new(@token)
   end
 
   describe "delete" do
@@ -17,6 +16,7 @@ describe "Subscriptions" do
                       headers: {})
       end
       it "should return true" do
+        @api = Mirror::Api::Client.new(@token)
         @api.subscriptions.delete(@id).should be_true
       end
     end
@@ -30,9 +30,20 @@ describe "Subscriptions" do
                       body: {},
                       headers: {})
       end
-      it "should return nil" do
-        subscription = @api.subscriptions.delete(@id)
-        subscription.should == nil
+
+      context "without bubbling errors" do
+        it "should return nil" do
+          @api = Mirror::Api::Client.new(@token)
+          subscription = @api.subscriptions.delete(@id)
+          subscription.should == nil
+        end
+      end
+
+      context "bubbling errors" do
+        it "should raise ex" do
+          @api = Mirror::Api::Client.new(@token, true)
+          expect{@api.subscriptions.delete(@id)}.to raise_error
+        end
       end
     end
 
@@ -52,6 +63,7 @@ describe "Subscriptions" do
                       headers: {})
       end
       it "should return a subscription with .kind == 'mirror#subscription'" do
+        @api = Mirror::Api::Client.new(@token)
         subscription = @api.subscriptions.insert(@body)
         subscription.kind.should == 'mirror#subscription'
       end
@@ -69,8 +81,16 @@ describe "Subscriptions" do
                       headers: {})
       end
       it "should return nil" do
+        @api = Mirror::Api::Client.new(@token)
         subscription = @api.subscriptions.insert(@body)
         subscription.should == nil
+      end
+
+      context "bubbling errors" do
+        it "should raise ex" do
+          @api = Mirror::Api::Client.new(@token, true)
+          expect{@api.subscriptions.insert(@body)}.to raise_error
+        end
       end
     end
 
@@ -89,7 +109,8 @@ describe "Subscriptions" do
       end
 
       it "should return a list of subscriptions" do
-        subscriptions = @api.subscriptions.list()
+        @api = Mirror::Api::Client.new(@token)
+        subscriptions = @api.subscriptions.list
         subscriptions.should_not be_nil
         subscriptions.items.count.should == 1 # see fixture
       end
@@ -112,6 +133,7 @@ describe "Subscriptions" do
                       headers: {})
       end
       it "should return a subscription with .kind == 'mirror#subscription'" do
+        @api = Mirror::Api::Client.new(@token)
         subscription = @api.subscriptions.update(@id, @body)
         subscription.kind.should == 'mirror#subscription'
       end
@@ -129,9 +151,19 @@ describe "Subscriptions" do
                       body: {},
                       headers: {})
       end
+
       it "should return nil" do
+        @api = Mirror::Api::Client.new(@token)
         subscription = @api.subscriptions.update(@id, @body)
         subscription.should == nil
+      end
+
+      context "when bubbling errors" do
+
+        it "should raise an exception" do
+          @api = Mirror::Api::Client.new(@token, true)
+          expect{@api.subscriptions.update(@id, @body)}.to raise_error
+        end
       end
     end
 

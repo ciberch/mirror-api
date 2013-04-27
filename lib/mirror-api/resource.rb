@@ -4,9 +4,12 @@ module Mirror
   module Api
     class Resource
 
-      def initialize(credentials, resource_name=Request::TIMELINE)
+      attr_accessor :raise_errors
+
+      def initialize(credentials, resource_name=Request::TIMELINE, raise_errors=false)
         @credentials =  credentials
         @resource_name = resource_name
+        @raise_errors = raise_errors
 
         raise "Invalid credentials #{credentials}" unless @credentials
       end
@@ -39,11 +42,11 @@ module Mirror
 
     private
       def make_options(params=nil, status=200)
-        {:resource => @resource_name, :params => params, :expected_response => status}
+        {:resource => @resource_name, :params => params, :expected_response => status, :raise_errors => @raise_errors}
       end
 
       def item_options(id, params=nil, status=200)
-        {:resource => @resource_name, :id => id, :params => params, :expected_response => status}
+        {:resource => @resource_name, :id => id, :params => params, :expected_response => status, :raise_errors => @raise_errors}
       end
 
       def handle_list(args)
