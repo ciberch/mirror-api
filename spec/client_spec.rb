@@ -80,7 +80,7 @@ describe Mirror::Api::Client do
         before do
           @id = "0987asdasds"
 
-          stub_request(:get, "https://www.googleapis.com/mirror/v1/locations/").
+          stub_request(:get, "https://www.googleapis.com/mirror/v1/locations/#{@id}").
             with(headers: json_get_request_headers).
               to_return(status: 404, body: {}.to_json,
                          headers: {})
@@ -89,7 +89,7 @@ describe Mirror::Api::Client do
 
         it "should not get the item" do
 
-          item = @api.timeline.get(@id)
+          item = @api.locations.get(@id)
           item.should be_nil
         end
       end 
