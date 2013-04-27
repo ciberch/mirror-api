@@ -40,7 +40,7 @@ api = Mirror::Api::Client.new(token)
 items = api.timeline.list
 ```
 
-### [Inserting a Timeline item](https://developers.google.com/glass/timeline/insert)
+### [Inserting a Timeline item](https://developers.google.com/glass/v1/reference/timeline/insert)
 ```ruby
 item_1 = api.timeline.insert({text: "What up WORLD?!?!"})
 ```
@@ -96,7 +96,7 @@ api.timeline.delete(item_2.id, {attachments:{id: attachment.id}})
 subscriptions = api.subscriptions.list
 ```
 
-### [Inserting a Subscription](https://developers.google.com/glass/subscriptions/insert)
+### [Inserting a Subscription](https://developers.google.com/glass/v1/reference/subscriptions/insert)
 ```ruby
 subscription = api.subscriptions.insert({collection: "timeline", userToken:"user_1", operation: ["UPDATE"], callbackUrl: "https://yourawesomewebsite.com/callback"})
 ```
@@ -105,11 +105,6 @@ subscription = api.subscriptions.insert({collection: "timeline", userToken:"user
 ```ruby
 item_2 = api.subscriptions.update(subscription.id, {collection: "timeline", operation: ["UPDATE", "INSERT", "DELETE"], callbackUrl: "https://yourawesomewebsite.com/callback"})
 
-```
-
-### [Getting a Subscription](https://developers.google.com/glass/v1/reference/subscriptions/get)
-```ruby
-api.subscriptions.get(item_2.id)
 ```
 
 ### [Deleting a Subscription](https://developers.google.com/glass/v1/reference/subscriptions/delete)
@@ -138,7 +133,7 @@ api.locations.get(location.id)
 items = api.contacts.list
 ```
 
-### [Inserting a Contact](https://developers.google.com/glass/contacts/insert)
+### [Inserting a Contact](https://developers.google.com/glass/v1/reference/contacts/insert)
 ```ruby
 contact = api.contacts.insert({id: '1234', displayName: 'Troll', imageUrls: ["http://pixelr3ap3r.com/wp-content/uploads/2012/08/357c6328ee4b11e1bfbf22000a1c91a7_7.jpg"]})
 ```
@@ -165,9 +160,7 @@ api.contacts.delete(contact.id)
 
 ## See Also
 
-Generic Google API Ruby Client
-
-https://github.com/google/google-api-ruby-client
+[Generic Google API Ruby Client](https://github.com/google/google-api-ruby-client)
 
 ## Contributing
 
