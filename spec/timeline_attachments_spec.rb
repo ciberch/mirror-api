@@ -5,7 +5,6 @@ describe "Timeline Attachments" do
   before do
     @token = "my-token"
     @api = Mirror::Api::Client.new(@token)
-    @api_error_bubble = Mirror::Api::Client.new(@token)
   end
 
   context "delete" do
