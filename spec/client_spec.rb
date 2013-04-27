@@ -474,9 +474,8 @@ describe Mirror::Api::Client do
                        body: {},
                        headers: {})
         end
-        it "should return nil" do
-          subscription = @api.subscriptions.delete(@id)
-          subscription.should == nil
+        it "should return true" do
+          @api.subscriptions.delete(@id).should be_true
         end
       end
 
