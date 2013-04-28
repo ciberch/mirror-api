@@ -31,16 +31,16 @@ module Mirror
       end
 
       public
-      def post(json=false)
-        do_verb(:post, json)
+      def post
+        do_verb(:post)
       end
 
-      def put(json=false)
-        do_verb(:put, json)
+      def put
+        do_verb(:put)
       end
 
-      def patch(json=false)
-        do_verb(:patch, json)
+      def patch
+        do_verb(:patch)
       end
 
       def delete
@@ -103,8 +103,8 @@ module Mirror
         end
       end
 
-      def do_verb(verb=:post, json=false)
-        data = json ? self.params : self.params.to_json
+      def do_verb(verb=:post)
+        data = self.params.to_json
         @response = RestClient.send(verb, self.invoke_url, data, self.headers) do |response, request, result, &block|
           handle_http_response(response, request, result, &block)
         end
