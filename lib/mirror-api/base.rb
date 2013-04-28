@@ -107,17 +107,6 @@ module Mirror
         raise error_desc[:message] if throw_on_fail
       end
 
-      def handle_exception(error_desc, msg, ex, params={})
-        @last_exception = ex
-        @last_error = error_desc
-        msg += " with params #{params}" if params && params.keys.count > 0
-        msg += " due to #{ex}.\n" + ex.backtrace.join("\n")
-        @logger.error(msg) if @logger
-
-        raise ex if throw_on_fail
-        return nil
-      end
-
       def set_data
         if @response and @response.body
           @data = JSON.parse(@response.body) if @response.body.is_a?(String) && !@response.body.empty?
