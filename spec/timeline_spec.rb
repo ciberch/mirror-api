@@ -87,6 +87,13 @@ describe "Timeline" do
       it "should return nil" do
         @api.timeline.delete(@id).should == nil
       end
+
+      it "log the error" do
+        logger = Logger.new(STDOUT)
+        @api.timeline.options[:logger] = logger
+        logger.should_receive(:warn)
+        @api.timeline.delete(@id).should == nil
+      end
     end
 
   end

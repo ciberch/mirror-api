@@ -87,7 +87,7 @@ describe "Subscriptions" do
 
       context "bubbling errors" do
         it "should raise ex" do
-          @api = Mirror::Api::Client.new(@token, true)
+          @api = Mirror::Api::Client.new(@token, {:raise_errors => true})
           expect{@api.subscriptions.insert(@body)}.to raise_error
         end
       end
@@ -160,7 +160,7 @@ describe "Subscriptions" do
       context "when bubbling errors" do
 
         it "should raise an exception" do
-          @api = Mirror::Api::Client.new(@token, true)
+          @api = Mirror::Api::Client.new(@token, {:raise_errors => true})
           expect{@api.subscriptions.update(@id, @body)}.to raise_error
         end
       end
