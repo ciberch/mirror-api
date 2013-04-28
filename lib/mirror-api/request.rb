@@ -14,7 +14,7 @@ module Mirror
       LOCATIONS = "locations"
       CONTACTS = "contacts"
 
-      attr_accessor :last_error, :logger, :host, :last_exception, :throw_on_fail, :response, :data, :creds
+      attr_accessor :last_error, :logger, :host, :last_exception, :throw_on_fail, :response, :data, :creds, :resource, :params
 
 
       def initialize(creds, options={})
@@ -148,10 +148,6 @@ module Mirror
 
       def attachments
         params.attachments if params
-      end
-
-      def params
-        @params
       end
 
       def ret_val
