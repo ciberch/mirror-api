@@ -21,6 +21,23 @@ describe Mirror::Api::OAuth do
         access_token.should == "BOOYAH"
       end
     end
+
+    context "has invalid params" do
+      before do
+        @body = {client_id: @oauth.client_id, client_secret: @oauth.client_secret, refresh_token: @oauth.refresh_token, grant_type: "refresh_token"}
+
+        stub_request(:post, "https://accounts.google.com/o/oauth2/token").
+            with(body: @body,
+                 headers: json_post_request_headers(@body.to_json)).
+            to_return(status: 200,
+                      body: {:error => {:message => "bad request"}}.to_json,
+                      headers: {})
+      end
+
+      it "should raise an error" do
+        expect{@oauth.get_access_token}.to raise_error
+      end
+    end
     
   end
 

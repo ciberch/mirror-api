@@ -4,7 +4,12 @@
 
 # Mirror::Api
 
-Simple Mirror Api client library
+Simple Mirror Api client library.
+
+## Benefits
+
+- Robust error handling. You can choose whether to bubble errors or not.
+- Snake case(ruby friendly) notation for requests and responses
 
 ## Installation
 
@@ -52,7 +57,8 @@ item_2 = api.timeline.insert({text: "Do you like tacos?", menu_items:[{action: "
 
 ### [Updating a Timeline item](https://developers.google.com/glass/v1/reference/timeline/update)
 ```ruby
-item_2 = api.timeline.update(item_2.id, {text: "Seriously, do you like tacos? This is the second time I had to ask you.", menu_items:[{action: "REPLY"}]})
+txt = "Seriously, do you like tacos? This is the second time I had to ask you."
+item_2 = api.timeline.update(item_2.id, {text: txt, menu_items:[{action: "REPLY"}]})
 ```
 
 ### [Patching a Timeline item](https://developers.google.com/glass/v1/reference/timeline/patch)
@@ -158,9 +164,6 @@ api.contacts.get(contact.id)
 api.contacts.delete(contact.id)
 ```
 
-## See Also
-
-[Generic Google API Ruby Client](https://github.com/google/google-api-ruby-client)
 
 ## Contributing
 
