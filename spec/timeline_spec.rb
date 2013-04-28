@@ -146,10 +146,11 @@ describe "Timeline" do
       before do
         @id = '1234'
         @body = {text: "You realize you are a bad friend right?", menu_items:[{action: "REPLY"}]}
+        @body2 = {text: "You realize you are a bad friend right?", menuItems:[{action: "REPLY"}]}
 
         stub_request(:patch, "https://www.googleapis.com/mirror/v1/timeline/#{@id}").
-            with(body: @body,
-                 headers: json_post_request_headers(@token, @body.to_json)).
+            with(body: @body2,
+                 headers: json_post_request_headers(@token, @body2.to_json)).
             to_return(status: 200,
                       body: fixture("timeline_item.json", true),
                       headers: {})

@@ -1,6 +1,7 @@
 require "rest-client"
 require "json"
-require_relative "response"
+require_relative "request_data"
+require_relative "response_data"
 require_relative "errors"
 
 module Mirror
@@ -19,15 +20,29 @@ module Mirror
       def initialize(creds, options={})
         @resource = options[:resource] || TIMELINE
         @id = options[:id]
-        @params = options[:params]
-        @expected_response = options[:expected_response]
 
+        @expected_response = options[:expected_response]
+        self.params = options[:params]
         @creds = creds
         @last_exception = nil
         @throw_on_fail = options[:raise_errors] || false
         @host = options[:host] || HOST
         @logger = options[:logger]
         @last_error = nil
+      end
+
+      def params=(value)
+        if value
+          if value.is_a?(RequestData)
+            @params = value
+          elsif value.is_a?(Hash) && value.keys.count > 0
+            @params = RequestData.new(value)
+          else
+            raise "Parameter #{value.inspect} is not compatible"
+          end
+        else
+          @params = nil
+        end
       end
 
       public
@@ -92,7 +107,7 @@ module Mirror
         @last_error = error_desc.dup
         @last_error[:errors] = errors
         @last_error[:validation_error] = validation_error if validation_error
-        msg += " with params #{params}" if params.keys.count > 0
+        msg += " with params #{params}"
         @logger.warn(msg) if @logger
         raise error_desc[:message] if throw_on_fail
       end
@@ -132,15 +147,15 @@ module Mirror
       end
 
       def attachments
-        params[:attachments] if params
+        params.attachments if params
       end
 
       def params
-        @params ||={}
+        @params
       end
 
       def ret_val
-        Response.new(@data)
+        ResponseData.new(@data)
       end
 
       def expected_response

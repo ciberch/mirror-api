@@ -71,18 +71,17 @@ describe "Subscriptions" do
 
     context "with invalid params" do
       before do
-        @body = {not_cool_dude: "Really you thought that was valid?!"}
-
+        @body2 = {:notCoolDude => "Really you thought that was valid?!"}
         stub_request(:post, "https://www.googleapis.com/mirror/v1/subscriptions/").
-            with(body: @body,
-                 headers: json_post_request_headers(@token, @body.to_json)).
+            with(body: @body2,
+                 headers: json_post_request_headers(@token, @body2.to_json)).
             to_return(status: 404,
                       body: {},
                       headers: {})
       end
       it "should return nil" do
         @api = Mirror::Api::Client.new(@token)
-        subscription = @api.subscriptions.insert(@body)
+        subscription = @api.subscriptions.insert({not_cool_dude: "Really you thought that was valid?!"})
         subscription.should == nil
       end
 
