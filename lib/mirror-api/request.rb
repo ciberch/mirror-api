@@ -1,5 +1,6 @@
 require "rest-client"
 require "json"
+require "logger"
 require_relative "request_data"
 require_relative "response_data"
 require_relative "errors"
@@ -14,21 +15,45 @@ module Mirror
       LOCATIONS = "locations"
       CONTACTS = "contacts"
 
+      VALID_RESOURCES = [TIMELINE, SUBSCRIPTIONS, LOCATIONS, CONTACTS]
+
       attr_accessor :last_error, :logger, :host, :last_exception, :throw_on_fail, :response, :data, :creds, :resource, :params
 
 
       def initialize(creds, options={})
-        @resource = options[:resource] || TIMELINE
+        self.resource = options[:resource]
+        self.params = options[:params]
+        self.logger = options[:logger]
         @id = options[:id]
 
         @expected_response = options[:expected_response]
-        self.params = options[:params]
         @creds = creds
         @last_exception = nil
         @throw_on_fail = options[:raise_errors] || false
         @host = options[:host] || HOST
-        @logger = options[:logger]
+
         @last_error = nil
+      end
+
+      def logger=(value)
+        if value
+          if value.is_a?(Logger)
+            @logger = value
+          else
+            raise "Invalid object given as logger #{value.inspect}"
+          end
+        end
+      end
+
+      def resource=(value)
+        if value
+          if VALID_RESOURCES.include?(value)
+            @resource = value
+          else
+            raise "Invalid resource name #{value}"
+          end
+        end
+        @resource = TIMELINE unless @resource
       end
 
       def params=(value)
