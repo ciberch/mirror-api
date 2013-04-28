@@ -12,12 +12,14 @@ module Mirror
         req = Net::HTTP::Post.new("/o/oauth2/token")
         req.set_form_data(client_id: self.client_id, client_secret: self.client_secret, refresh_token: self.refresh_token, grant_type: "refresh_token")
         res = Net::HTTP.start("accounts.google.com", use_ssl: true, verify_mode: OpenSSL::SSL::VERIFY_NONE) { |http| http.request(req) }
-       
-        begin
-          result = JSON.parse(res.body)
-          result["access_token"]
-        rescue
-          raise JSON.parse(res.body)['error']['message']
+        result = JSON.parse(res.body)
+
+        if result
+          if result["access_token"]
+            result["access_token"]
+          elsif result["error"]
+            raise "Error in get_access_token #{result["error"]}"
+          end
         end
       end
 
