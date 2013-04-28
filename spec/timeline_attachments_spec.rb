@@ -58,7 +58,7 @@ describe "Timeline Attachments" do
 
       it "should return isProcessingContent with boolean false" do
         timeline_attachment = @api.timeline.get(@timeline_id, {attachments:{id: @attachment_id}})
-        timeline_attachment.isProcessingContent == false
+        timeline_attachment.is_processing_content == false
       end
     end
 

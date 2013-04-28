@@ -40,7 +40,7 @@ module Mirror
       end
 
       def ret_val
-        Hashie::Mash.new(@data)
+        Response.new(@data)
       end
 
       def expected_response
