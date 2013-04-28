@@ -1,6 +1,6 @@
 require "rest-client"
 require "json"
-require "hashie/mash"
+require_relative "response"
 
 require_relative "errors"
 
