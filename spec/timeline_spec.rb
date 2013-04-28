@@ -28,6 +28,14 @@ describe "Timeline" do
           item.created.should == "2012-09-25T23:28:43.192Z" # see fixture
           item.text.should == @msg
         end
+
+        it "should insert plain text items passing request data" do
+          data = Mirror::Api::RequestData.new({text: @msg})
+          item = @api.timeline.create(data)
+          item.should_not be_nil
+          item.created.should == "2012-09-25T23:28:43.192Z" # see fixture
+          item.text.should == @msg
+        end
       end
 
       context "with invalid params" do
