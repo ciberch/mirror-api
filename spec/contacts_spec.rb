@@ -191,6 +191,7 @@ describe "Contacts" do
       it "should return a contact with .kind == 'mirror#contact'" do
         contact = @api.contacts.update(@id, @body)
         contact.kind.should == 'mirror#contact'
+        contact.phone_number.should == "1234345587"
       end
     end
 
