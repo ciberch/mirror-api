@@ -79,7 +79,6 @@ describe "Timeline Attachments" do
     end
   end
 
-  #TODO: Support file upload
   context "insert" do
      context "with valid params", focus: true do
        before do
@@ -87,32 +86,17 @@ describe "Timeline Attachments" do
          @file = fixture('files/fry.png')
          @params = {text: "Hello"}
 
-         @double = double("response", body: {'id' => '121212'}.to_json, code: "200")
+         @double = double("response", body: {'id' => @timeline_id, 'text' => "Hello"}.to_json, code: 200)
          RestClient.stub(:post).and_return(@double)
        end
 
-       it "should return timeline_attachment with id '1234'", focus: true do
-         x = @api.timeline.insert(@params, @file)
-         pending
+       it "should return timeline_attachment with id '1234'" do
+         item = @api.timeline.insert(@params, @file)
+         item.should_not be_nil
+         item.text.should == "Hello"
+         item.id.should == @timeline_id
        end
      end
-
-  #   context "with invalid params" do
-  #     before do
-  #       @body = {canIHazContact: "Really you thought that was valid?!"}
-
-  #       stub_request(:post, "https://www.googleapis.com/mirror/v1/contacts/").
-  #         with(body: @body,
-  #           headers: json_post_request_headers(@token, @body.to_json)).
-  #         to_return(status: 404,
-  #           body: "",
-  #           headers: {})
-  #     end
-  #     it "should return nil" do
-  #       contact = @api.contacts.insert(@body)
-  #       contact.should == nil
-  #     end
-  #   end
   end
 
   # TODO correct resource#list method to handle attachments
