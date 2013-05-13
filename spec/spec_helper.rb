@@ -4,8 +4,6 @@ require "rspec"
 require 'webmock/rspec'
 require 'webmock'
 require 'pry'
-require 'coveralls'
-Coveralls.wear!
 
 require_relative "../lib/mirror-api/client.rb"
 require_relative "../lib/mirror-api/oauth.rb"
