@@ -22,7 +22,11 @@ module Mirror
 
       def initialize(creds, options={})
         self.resource = options[:resource]
-        self.params = options[:params]
+        params = options[:params]
+        if params && params[:attachments] && params[:attachments] != ""
+          @attachments = params.delete(:attachments)
+        end
+        self.params = params
         self.logger = options[:logger]
         @id = options[:id]
 
@@ -60,8 +64,8 @@ module Mirror
         if value
           if value.is_a?(RequestData)
             @params = value
-          elsif value.is_a?(Hash) && value.keys.count > 0
-            @params = RequestData.new(value)
+          elsif value.is_a?(Hash)
+            @params = RequestData.new(value) if value.keys.count > 0
           else
             raise "Parameter #{value.inspect} is not compatible"
           end
@@ -73,6 +77,19 @@ module Mirror
       public
       def post
         do_verb(:post)
+      end
+
+      def multipart_post(image)
+
+        params = self.params
+        params[:multipart] = true
+        params[:file] = image
+        url = invoke_url + "?uploadType=multipart"
+        @response = RestClient.post(url, params, self.headers) do |response, request, result, &block|
+          handle_http_response(response, request, result, &block)
+        end
+        set_data
+        handle_response
       end
 
       def put
@@ -163,16 +180,12 @@ module Mirror
       def invoke_url
         return @invoke_url unless @invoke_url.nil?
         @invoke_url ="#{self.host}/mirror/v1/#{@resource}/#{@id ? @id : ''}"
-        @invoke_url += "/attachments/#{attachment_id ? attachment_id : ''}" if attachments
+        @invoke_url += "/attachments/#{attachment_id ? attachment_id : ''}" if @attachments
         @invoke_url
       end
 
       def attachment_id
-        attachments[:id] if attachments
-      end
-
-      def attachments
-        params.attachments if params
+        @attachments[:id] if @attachments
       end
 
       def ret_val

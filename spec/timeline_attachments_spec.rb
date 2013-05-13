@@ -80,25 +80,22 @@ describe "Timeline Attachments" do
   end
 
   #TODO: Support file upload
-  # context "insert" do
-  #   context "with valid params" do
-  #     before do
-  #       @timeline_id = "1234"
-  #       @file = fixture_file_upload('files/fry.png', 'image/png')
-  #       @params = {uploadType: 'media'}
+  context "insert" do
+     context "with valid params", focus: true do
+       before do
+         @timeline_id = "1234"
+         @file = fixture('files/fry.png')
+         @params = {text: "Hello"}
 
-  #       stub_request(:post, "https://www.googleapis.com/mirror/v1/timeline/#{@timeline_id}/attachments?uploadType=media").
-  #         with(
-  #           headers: json_post_request_headers(@token, @body.to_json)).
-  #         to_return(status: 200,
-  #           body: fixture("timeline_item_attachments_item.json", true),
-  #           headers: {})
-  #     end
-  #     it "should return timeline_attachment with id '1234'" do
-  #       timeline_attachment = @api.timeline.delete(@timeline_id, {attachments:{id: @attachment_id}})
-  #       timeline_attachment.id == '1234ß'
-  #     end
-  #   end
+         @double = double("response", body: {'id' => '121212'}.to_json, code: "200")
+         RestClient.stub(:post).and_return(@double)
+       end
+
+       it "should return timeline_attachment with id '1234'", focus: true do
+         x = @api.timeline.insert(@params, @file)
+         pending
+       end
+     end
 
   #   context "with invalid params" do
   #     before do
@@ -116,7 +113,7 @@ describe "Timeline Attachments" do
   #       contact.should == nil
   #     end
   #   end
-  # end
+  end
 
   # TODO correct resource#list method to handle attachments
   context "list" do

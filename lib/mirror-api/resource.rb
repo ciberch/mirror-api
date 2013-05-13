@@ -18,10 +18,18 @@ module Mirror
         handle_list(args)
       end
 
-      def create(params)
-        Request.new(@credentials, make_options(params)).post
+      def create(params, attachment=nil)
+        if attachment
+          insert_media(params, attachment)
+        else
+          Request.new(@credentials, make_options(params)).post
+        end
       end
       alias insert create
+
+      def insert_media(params, attachment)
+        Request.new(@credentials, make_options(params)).multipart_post(attachment)
+      end
 
       def get(id, params=nil)
         Request.new(@credentials, item_options(id, params)).get
