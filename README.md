@@ -34,7 +34,7 @@ require "mirror-api"
 ```
 ### Authenticating your client
 ```ruby
-token = Mirror::OAuth.new(client_id, client_secret, refresh_token)
+token = Mirror::Api::OAuth.new(client_id, client_secret, refresh_token)
 
 api = Mirror::Api::Client.new(token)
 ```
