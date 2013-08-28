@@ -18,6 +18,11 @@ def fixture(file, read=false)
   file
 end
 
+RSpec.configure do |config|
+  config.filter_run :focus => true
+  config.run_all_when_everything_filtered = true
+end
+
 def json_post_request_headers(token, body)
   {
       'Accept'=>'application/json',

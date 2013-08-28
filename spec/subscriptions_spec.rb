@@ -41,8 +41,8 @@ describe "Subscriptions" do
 
       context "bubbling errors" do
         it "should raise ex" do
-          @api = Mirror::Api::Client.new(@token, true)
-          expect{@api.subscriptions.delete(@id)}.to raise_error
+          @api = Mirror::Api::Client.new(@token, raise_errors: true)
+          expect{@api.subscriptions.delete(@id)}.to raise_error(Mirror::Api::BadRequestError)
         end
       end
     end
@@ -75,20 +75,20 @@ describe "Subscriptions" do
         stub_request(:post, "https://www.googleapis.com/mirror/v1/subscriptions/").
             with(body: @body2,
                  headers: json_post_request_headers(@token, @body2.to_json)).
-            to_return(status: 404,
-                      body: {},
+            to_return(status: 400,
+                      body: fixture("subscriptions_insert_bad.json", true),
                       headers: {})
       end
       it "should return nil" do
         @api = Mirror::Api::Client.new(@token)
-        subscription = @api.subscriptions.insert({not_cool_dude: "Really you thought that was valid?!"})
+        subscription = @api.subscriptions.insert(@body2)
         subscription.should == nil
       end
 
       context "bubbling errors" do
         it "should raise ex" do
           @api = Mirror::Api::Client.new(@token, {:raise_errors => true})
-          expect{@api.subscriptions.insert(@body)}.to raise_error
+          expect{@api.subscriptions.insert(@body2)}.to raise_error(Mirror::Api::BadRequestError)
         end
       end
     end
@@ -161,7 +161,7 @@ describe "Subscriptions" do
 
         it "should raise an exception" do
           @api = Mirror::Api::Client.new(@token, {:raise_errors => true})
-          expect{@api.subscriptions.update(@id, @body)}.to raise_error
+          expect{@api.subscriptions.update(@id, @body)}.to raise_error(Mirror::Api::BadRequestError)
         end
       end
     end
