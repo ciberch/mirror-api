@@ -37,7 +37,7 @@ module Mirror
 
       def logger=(value)
         if value
-          if value.is_a?(Logger)
+          if value.respond_to?(:warn) && value.respond_to?(:error)
             @logger = value
           else
             raise "Invalid object given as logger #{value.inspect}"
