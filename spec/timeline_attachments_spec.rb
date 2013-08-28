@@ -130,7 +130,7 @@ describe "Timeline Attachments" do
                       headers: {})
       end
 
-      it "should return a list of contacts", :focus => true do
+      it "should return a list of contacts" do
         attachments = @api.timeline.list(@timeline_id, {attachments: {} })
         attachments.should_not be_nil
         attachments.items.count.should == 2  # see fixture
