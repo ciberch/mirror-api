@@ -96,10 +96,12 @@ module Mirror
       def handle_http_response(response, request, result, &block)
         @request = request
         case response.code
-          when 404
-          when 400
+          when 404, 400
+            @error_response = response.body
+            @error_code = response.code
+            @chosen_error = @error_code == 400 ? Mirror::Api::Errors::ERROR_400 : Mirror::Api::Errors::ERROR_404
             if @logger
-              msg = "ERROR - #{response.code} #{request.inspect} to #{self.invoke_url} with params #{self.params}. Response is #{response.body}"
+              msg = "ERROR - #{@error_code} #{request.inspect} to #{self.invoke_url} with params #{self.params}. Response is #{@error_response}"
               @logger.error(msg)
             end
             response
@@ -124,7 +126,7 @@ module Mirror
         if successful_response?
           ret_val
         else
-          send_error
+          @chosen_error ? send_chosen_error : send_error
         end
       end
 
@@ -134,7 +136,13 @@ module Mirror
         @last_error[:validation_error] = validation_error if validation_error
         msg += " with params #{params}"
         @logger.warn(msg) if @logger
-        raise error_desc[:message] if throw_on_fail
+        if throw_on_fail
+          if error_desc[:ex_class]
+            raise error_desc[:ex_class].new(@last_error, params)
+          else
+            raise error_desc[:message]
+          end
+        end
       end
 
       def set_data
@@ -185,9 +193,17 @@ module Mirror
 
       def send_error
         return handle_error(
-            Mirror::Api::Errors::ERROR_400,
+            Mirror::Api::Errors::ERROR,
             "Error making a request for #{@resource}",
             @data
+        )
+      end
+
+      def send_chosen_error
+        return handle_error(
+            @chosen_error,
+            "Error making a request for #{@resource}",
+            {:response => @error_response, :code => @error_code}
         )
       end
     end

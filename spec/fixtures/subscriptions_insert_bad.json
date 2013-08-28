@@ -1,0 +1,18 @@
+{
+  "error": {
+    "errors": [
+      {
+        "domain": "global",
+        "reason": "required",
+        "message": "collection field is required for Subscription"
+      },
+      {
+        "domain": "global",
+        "reason": "required",
+        "message": "callbackUrl field is required for Subscription"
+      }
+    ],
+    "code": 400,
+    "message": "collection field is required for Subscription"
+  }
+}
